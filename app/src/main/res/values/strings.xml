@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">DeliGo</string>
-    <string name="title_menu">Menu</string>
-    <string name="title_cart">Cart</string>
-    <string name="title_orders">Orders</string>
-    <string name="title_user">User</string>
+    <string name="welcome_title">Welcome to DeliGo</string>
+    <string name="database_initializing">Preparing your local database…</string>
+    <string name="unknown_database_name">unknown database</string>
+    <string name="database_ready_message">Connected to local database: %1$s</string>
 </resources>
