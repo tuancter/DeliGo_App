@@ -37,4 +37,5 @@
     <string name="order_marked_preparing">Order marked as preparing</string>
     <string name="order_marked_cancelled">Order marked as cancelled</string>
     <string name="order_marked_ready">Order marked as ready for pickup</string>
+    <string name="toggle_password_visibility">Toggle password visibility</string>
 </resources>

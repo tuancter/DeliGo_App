@@ -27,14 +27,33 @@
             android:inputType="textEmailAddress"
             android:imeOptions="actionNext" />
 
-        <EditText
-            android:id="@+id/editTextPassword"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:imeOptions="actionDone" />
+            android:layout_marginTop="16dp">
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:imeOptions="actionDone"
+                android:paddingEnd="48dp"
+                android:paddingRight="48dp" />
+
+            <ImageButton
+                android:id="@+id/buttonToggleRegisterPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/toggle_password_visibility"
+                android:padding="8dp"
+                android:src="@drawable/ic_visibility"
+                android:tint="@android:color/darker_gray" />
+        </RelativeLayout>
 
         <Spinner
             android:id="@+id/spinnerRole"
