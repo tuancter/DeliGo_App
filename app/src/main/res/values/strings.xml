@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DeliGo</string>
+    <string name="title_menu">Menu</string>
+    <string name="title_cart">Cart</string>
+    <string name="title_orders">Orders</string>
+    <string name="title_user">User</string>
+</resources>
