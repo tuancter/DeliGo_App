@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_available_orders"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="@string/menu_available_orders" />
+    <item
+        android:id="@+id/navigation_my_deliveries"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="@string/menu_my_deliveries" />
+</menu>

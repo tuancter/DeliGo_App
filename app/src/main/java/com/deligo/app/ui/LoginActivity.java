@@ -13,14 +13,17 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.deligo.app.R;
+import com.deligo.app.data.UserSession;
 import com.deligo.app.data.local.DeliGoDatabase;
 import com.deligo.app.data.local.dao.UsersDao;
 import com.deligo.app.data.local.entity.UserEntity;
 import com.deligo.app.ui.owner.OwnerMainActivity;
+import com.deligo.app.ui.shipper.ShipperMainActivity;
 
 import java.util.Locale;
 import java.util.concurrent.Executor;
@@ -138,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (user == null) {
                             Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
                         } else {
-                            navigateToRoleHome(user.getRole());
+                            navigateToRoleHome(user);
                         }
                     }
                 });
@@ -146,7 +149,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void navigateToRoleHome(String role) {
+    private void navigateToRoleHome(@NonNull UserEntity user) {
+        String role = user.getRole();
         if (TextUtils.isEmpty(role)) {
             Toast.makeText(this, "User role is not defined", Toast.LENGTH_SHORT).show();
             return;
@@ -154,6 +158,7 @@ public class LoginActivity extends AppCompatActivity {
 
         String normalizedRole = role.trim().toLowerCase(Locale.US);
         Class<?> targetClass;
+        Intent intent;
         switch (normalizedRole) {
             case "customer":
                 targetClass = CustomerMainActivity.class;
@@ -162,11 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                 targetClass = OwnerMainActivity.class;
                 break;
             case "shipper":
-                try {
-                    targetClass = Class.forName("com.deligo.app.ui.ShipperMainActivity");
-                } catch (ClassNotFoundException e) {
-                    targetClass = null;
-                }
+                targetClass = ShipperMainActivity.class;
                 break;
             default:
                 targetClass = null;
@@ -182,7 +183,11 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        Intent intent = new Intent(this, targetClass);
+        intent = new Intent(this, targetClass);
+        if (normalizedRole.equals("shipper")) {
+            intent.putExtra(ShipperMainActivity.EXTRA_SHIPPER_ID, user.getUserId());
+        }
+        UserSession.setCurrentUser(user);
         startActivity(intent);
         finish();
     }

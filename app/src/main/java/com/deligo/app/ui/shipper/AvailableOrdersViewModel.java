@@ -1,4 +1,4 @@
-package com.deligo.app.ui.owner;
+package com.deligo.app.ui.shipper;
 
 import android.app.Application;
 
@@ -14,39 +14,29 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ProcessOrdersViewModel extends AndroidViewModel {
-
-    public static final String STATUS_PENDING_CONFIRMATION = "Chờ xác nhận";
-    public static final String STATUS_PREPARING = "Đang chuẩn bị";
-    public static final String STATUS_READY_FOR_PICKUP = "Sẵn sàng giao";
-    public static final String STATUS_CANCELLED = "Bị hủy";
+public class AvailableOrdersViewModel extends AndroidViewModel {
 
     private final OrdersDao ordersDao;
-    private final LiveData<List<OrderEntity>> pendingOrders;
-    private final LiveData<List<OrderEntity>> preparingOrders;
+    private final LiveData<List<OrderEntity>> availableOrders;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    public ProcessOrdersViewModel(@NonNull Application application) {
+    public AvailableOrdersViewModel(@NonNull Application application) {
         super(application);
         ordersDao = DeliGoDatabase.getInstance(application).ordersDao();
-        pendingOrders = ordersDao.getOrdersByStatus(STATUS_PENDING_CONFIRMATION);
-        preparingOrders = ordersDao.getOrdersByStatus(STATUS_PREPARING);
+        availableOrders = ordersDao.getOrdersByStatus(ShipperOrderStatus.READY_FOR_DELIVERY);
     }
 
-    public LiveData<List<OrderEntity>> getPendingOrders() {
-        return pendingOrders;
+    public LiveData<List<OrderEntity>> getAvailableOrders() {
+        return availableOrders;
     }
 
-    public LiveData<List<OrderEntity>> getPreparingOrders() {
-        return preparingOrders;
-    }
-
-    public void updateOrderStatus(@NonNull final OrderEntity order, @NonNull final String status) {
+    public void acceptOrder(@NonNull final OrderEntity order, final long shipperId) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 OrderEntity updatedOrder = copyOrder(order);
-                updatedOrder.setOrderStatus(status);
+                updatedOrder.setShipperId(shipperId);
+                updatedOrder.setOrderStatus(ShipperOrderStatus.IN_DELIVERY);
                 ordersDao.updateOrder(updatedOrder);
             }
         });

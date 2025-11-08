@@ -38,4 +38,17 @@
     <string name="order_marked_cancelled">Order marked as cancelled</string>
     <string name="order_marked_ready">Order marked as ready for pickup</string>
     <string name="toggle_password_visibility">Toggle password visibility</string>
+    <string name="menu_available_orders">Available Orders</string>
+    <string name="menu_my_deliveries">My Deliveries</string>
+    <string name="available_orders_empty">No orders are ready for pickup right now.</string>
+    <string name="my_deliveries_empty">You have no active deliveries.</string>
+    <string name="accept_delivery">Accept Delivery</string>
+    <string name="complete_delivery">Complete Delivery</string>
+    <string name="accept_delivery_success">Delivery accepted successfully.</string>
+    <string name="complete_delivery_success">Delivery marked as completed.</string>
+    <string name="delivery_detail_missing_order">Order information is unavailable.</string>
+    <string name="delivery_address_label">Delivery Address</string>
+    <string name="customer_phone_label">Customer Phone</string>
+    <string name="customer_phone_not_available">Not available</string>
+    <string name="shipper_id_missing_message">Unable to determine shipper account. Please log in again.</string>
 </resources>
