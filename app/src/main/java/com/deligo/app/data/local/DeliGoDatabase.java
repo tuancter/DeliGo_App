@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.deligo.app.data.local.dao.CartDao;
 import com.deligo.app.data.local.dao.CartItemsDao;
@@ -26,6 +27,9 @@ import com.deligo.app.data.local.entity.OrderEntity;
 import com.deligo.app.data.local.entity.ReviewEntity;
 import com.deligo.app.data.local.entity.UserEntity;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Database(
         entities = {
                 UserEntity.class,
@@ -45,6 +49,9 @@ public abstract class DeliGoDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "deligo_db";
     private static volatile DeliGoDatabase INSTANCE;
+    private static final ExecutorService databaseWriteExecutor = Executors.newSingleThreadExecutor();
+    private static final String DEFAULT_OWNER_EMAIL = "admin@deligo.com";
+    private static final String DEFAULT_OWNER_PASSWORD = "admin123";
 
     public abstract UsersDao usersDao();
 
@@ -73,10 +80,53 @@ public abstract class DeliGoDatabase extends RoomDatabase {
                                     DeliGoDatabase.class,
                                     DATABASE_NAME)
                             .fallbackToDestructiveMigration()
+                            .addCallback(new RoomDatabase.Callback() {
+                                @Override
+                                public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                                    super.onCreate(db);
+                                    seedDefaultOwnerAccountAsync();
+                                }
+
+                                @Override
+                                public void onOpen(@NonNull SupportSQLiteDatabase db) {
+                                    super.onOpen(db);
+                                    seedDefaultOwnerAccountAsync();
+                                }
+
+                                private void seedDefaultOwnerAccountAsync() {
+                                    databaseWriteExecutor.execute(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            seedDefaultOwnerAccount();
+                                        }
+                                    });
+                                }
+                            })
                             .build();
                 }
             }
         }
         return INSTANCE;
+    }
+
+    private static void seedDefaultOwnerAccount() {
+        DeliGoDatabase database = INSTANCE;
+        if (database == null) {
+            return;
+        }
+
+        UsersDao usersDao = database.usersDao();
+        UserEntity existingOwner = usersDao.getUserByEmail(DEFAULT_OWNER_EMAIL);
+        if (existingOwner != null) {
+            return;
+        }
+
+        UserEntity ownerUser = new UserEntity();
+        ownerUser.setFullName("Cửa hàng DeliGo");
+        ownerUser.setEmail(DEFAULT_OWNER_EMAIL);
+        ownerUser.setPassword(DEFAULT_OWNER_PASSWORD);
+        ownerUser.setRole("Owner");
+        ownerUser.setStatus("Active");
+        usersDao.insert(ownerUser);
     }
 }
