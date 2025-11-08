@@ -1,12 +1,16 @@
 package com.deligo.app;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.deligo.app.data.local.DeliGoDatabase;
+import com.deligo.app.ui.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,5 +28,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         databaseStatusView.setText(getString(R.string.database_ready_message, databaseName));
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }, 3000);
     }
 }
