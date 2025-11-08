@@ -5,4 +5,22 @@
     <string name="database_initializing">Preparing your local database…</string>
     <string name="unknown_database_name">unknown database</string>
     <string name="database_ready_message">Connected to local database: %1$s</string>
+
+    <string name="manage_menu_title">Manage Menu</string>
+    <string name="add_new_food">Add New Food</string>
+    <string name="food_name_hint">Food Name</string>
+    <string name="food_price_hint">Price</string>
+    <string name="food_description_hint">Description</string>
+    <string name="add_food">Add</string>
+    <string name="update_food">Update</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="delete_food_confirmation">Delete %1$s from the menu?</string>
+    <string name="delete_food">Delete Food</string>
+    <string name="invalid_food_name">Please enter a food name</string>
+    <string name="invalid_food_price">Enter a valid price</string>
+    <string name="no_foods_placeholder">No food items available. Use the button below to add one.</string>
+    <string name="food_added_message">Food added successfully</string>
+    <string name="food_updated_message">Food updated successfully</string>
 </resources>
