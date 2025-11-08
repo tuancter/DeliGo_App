@@ -16,6 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.deligo.app.ui.LoginActivity" />
+        <activity android:name="com.deligo.app.ui.RegisterActivity" />
+        <activity android:name="com.deligo.app.ui.CustomerMainActivity" />
+        <activity android:name="com.deligo.app.ui.owner.OwnerMainActivity" />
     </application>
 
 </manifest>
