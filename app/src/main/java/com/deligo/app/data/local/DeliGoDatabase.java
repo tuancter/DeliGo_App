@@ -50,6 +50,8 @@ public abstract class DeliGoDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "deligo_db";
     private static volatile DeliGoDatabase INSTANCE;
     private static final ExecutorService databaseWriteExecutor = Executors.newSingleThreadExecutor();
+    private static final String DEFAULT_OWNER_EMAIL = "admin@deligo.com";
+    private static final String DEFAULT_OWNER_PASSWORD = "admin123";
 
     public abstract UsersDao usersDao();
 
@@ -82,27 +84,20 @@ public abstract class DeliGoDatabase extends RoomDatabase {
                                 @Override
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                     super.onCreate(db);
+                                    seedDefaultOwnerAccountAsync();
+                                }
+
+                                @Override
+                                public void onOpen(@NonNull SupportSQLiteDatabase db) {
+                                    super.onOpen(db);
+                                    seedDefaultOwnerAccountAsync();
+                                }
+
+                                private void seedDefaultOwnerAccountAsync() {
                                     databaseWriteExecutor.execute(new Runnable() {
                                         @Override
                                         public void run() {
-                                            DeliGoDatabase database = INSTANCE;
-                                            if (database == null) {
-                                                return;
-                                            }
-
-                                            UsersDao usersDao = database.usersDao();
-                                            UserEntity existingOwner = usersDao.getUserByEmail("admin@deligo.com");
-                                            if (existingOwner != null) {
-                                                return;
-                                            }
-
-                                            UserEntity ownerUser = new UserEntity();
-                                            ownerUser.setFullName("Chủ cửa hàng");
-                                            ownerUser.setEmail("admin@deligo.com");
-                                            ownerUser.setPassword("admin123");
-                                            ownerUser.setRole("Owner");
-                                            ownerUser.setStatus("Active");
-                                            usersDao.insert(ownerUser);
+                                            seedDefaultOwnerAccount();
                                         }
                                     });
                                 }
@@ -112,5 +107,26 @@ public abstract class DeliGoDatabase extends RoomDatabase {
             }
         }
         return INSTANCE;
+    }
+
+    private static void seedDefaultOwnerAccount() {
+        DeliGoDatabase database = INSTANCE;
+        if (database == null) {
+            return;
+        }
+
+        UsersDao usersDao = database.usersDao();
+        UserEntity existingOwner = usersDao.getUserByEmail(DEFAULT_OWNER_EMAIL);
+        if (existingOwner != null) {
+            return;
+        }
+
+        UserEntity ownerUser = new UserEntity();
+        ownerUser.setFullName("Cửa hàng DeliGo");
+        ownerUser.setEmail(DEFAULT_OWNER_EMAIL);
+        ownerUser.setPassword(DEFAULT_OWNER_PASSWORD);
+        ownerUser.setRole("Owner");
+        ownerUser.setStatus("Active");
+        usersDao.insert(ownerUser);
     }
 }
