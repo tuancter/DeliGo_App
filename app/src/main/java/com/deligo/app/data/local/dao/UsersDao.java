@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.deligo.app.data.local.entity.UserEntity;
 
@@ -18,4 +19,7 @@ public interface UsersDao {
 
     @Query("SELECT * FROM Users WHERE Email = :email AND Password = :password LIMIT 1")
     UserEntity checkUser(String email, String password);
+
+    @Update
+    int update(UserEntity user);
 }

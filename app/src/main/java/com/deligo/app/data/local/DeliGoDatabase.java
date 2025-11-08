@@ -117,16 +117,41 @@ public abstract class DeliGoDatabase extends RoomDatabase {
 
         UsersDao usersDao = database.usersDao();
         UserEntity existingOwner = usersDao.getUserByEmail(DEFAULT_OWNER_EMAIL);
-        if (existingOwner != null) {
+        if (existingOwner == null) {
+            UserEntity ownerUser = new UserEntity();
+            ownerUser.setFullName("Cửa hàng DeliGo");
+            ownerUser.setEmail(DEFAULT_OWNER_EMAIL);
+            ownerUser.setPassword(DEFAULT_OWNER_PASSWORD);
+            ownerUser.setRole("Owner");
+            ownerUser.setStatus("Active");
+            usersDao.insert(ownerUser);
             return;
         }
 
-        UserEntity ownerUser = new UserEntity();
-        ownerUser.setFullName("Cửa hàng DeliGo");
-        ownerUser.setEmail(DEFAULT_OWNER_EMAIL);
-        ownerUser.setPassword(DEFAULT_OWNER_PASSWORD);
-        ownerUser.setRole("Owner");
-        ownerUser.setStatus("Active");
-        usersDao.insert(ownerUser);
+        boolean needsUpdate = false;
+
+        if (!DEFAULT_OWNER_PASSWORD.equals(existingOwner.getPassword())) {
+            existingOwner.setPassword(DEFAULT_OWNER_PASSWORD);
+            needsUpdate = true;
+        }
+
+        if (!"Owner".equalsIgnoreCase(existingOwner.getRole())) {
+            existingOwner.setRole("Owner");
+            needsUpdate = true;
+        }
+
+        if (!"Active".equalsIgnoreCase(existingOwner.getStatus())) {
+            existingOwner.setStatus("Active");
+            needsUpdate = true;
+        }
+
+        if (existingOwner.getFullName() == null || existingOwner.getFullName().trim().isEmpty()) {
+            existingOwner.setFullName("Cửa hàng DeliGo");
+            needsUpdate = true;
+        }
+
+        if (needsUpdate) {
+            usersDao.update(existingOwner);
+        }
     }
 }
