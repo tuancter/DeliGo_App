@@ -1,52 +1,52 @@
-package com.deligo.app.ui.owner;
+package com.deligo.app.ui.shipper;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
 import com.deligo.app.data.local.DeliGoDatabase;
 import com.deligo.app.data.local.dao.OrdersDao;
 import com.deligo.app.data.local.entity.OrderEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ProcessOrdersViewModel extends AndroidViewModel {
-
-    public static final String STATUS_PENDING_CONFIRMATION = "Chờ xác nhận";
-    public static final String STATUS_PREPARING = "Đang chuẩn bị";
-    public static final String STATUS_READY_FOR_PICKUP = "Sẵn sàng giao";
-    public static final String STATUS_CANCELLED = "Bị hủy";
+public class MyDeliveriesViewModel extends AndroidViewModel {
 
     private final OrdersDao ordersDao;
-    private final LiveData<List<OrderEntity>> pendingOrders;
-    private final LiveData<List<OrderEntity>> preparingOrders;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    public ProcessOrdersViewModel(@NonNull Application application) {
+    public MyDeliveriesViewModel(@NonNull Application application) {
         super(application);
         ordersDao = DeliGoDatabase.getInstance(application).ordersDao();
-        pendingOrders = ordersDao.getOrdersByStatus(STATUS_PENDING_CONFIRMATION);
-        preparingOrders = ordersDao.getOrdersByStatus(STATUS_PREPARING);
     }
 
-    public LiveData<List<OrderEntity>> getPendingOrders() {
-        return pendingOrders;
+    public LiveData<List<OrderEntity>> getDeliveriesForShipper(long shipperId) {
+        return Transformations.map(ordersDao.getOrdersByShipperId(shipperId), orders -> {
+            if (orders == null) {
+                return new ArrayList<>();
+            }
+            List<OrderEntity> filtered = new ArrayList<>(orders.size());
+            for (OrderEntity order : orders) {
+                if (ShipperOrderStatus.IN_DELIVERY.equals(order.getOrderStatus())) {
+                    filtered.add(order);
+                }
+            }
+            return filtered;
+        });
     }
 
-    public LiveData<List<OrderEntity>> getPreparingOrders() {
-        return preparingOrders;
-    }
-
-    public void updateOrderStatus(@NonNull final OrderEntity order, @NonNull final String status) {
+    public void completeDelivery(@NonNull final OrderEntity order) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 OrderEntity updatedOrder = copyOrder(order);
-                updatedOrder.setOrderStatus(status);
+                updatedOrder.setOrderStatus(ShipperOrderStatus.COMPLETED);
                 ordersDao.updateOrder(updatedOrder);
             }
         });

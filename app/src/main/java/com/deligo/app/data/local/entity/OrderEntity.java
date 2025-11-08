@@ -6,6 +6,8 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(
         tableName = "Orders",
         foreignKeys = {
@@ -29,7 +31,9 @@ import androidx.room.PrimaryKey;
                 @Index(value = "ShipperID")
         }
 )
-public class OrderEntity {
+public class OrderEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "OrderID")
@@ -55,6 +59,9 @@ public class OrderEntity {
 
     @ColumnInfo(name = "OrderStatus")
     private String orderStatus;
+
+    @ColumnInfo(name = "Phone")
+    private String phone;
 
     @ColumnInfo(name = "Note")
     private String note;
@@ -127,6 +134,14 @@ public class OrderEntity {
 
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getNote() {
