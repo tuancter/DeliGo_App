@@ -24,4 +24,7 @@ public interface CartDao {
 
     @Query("SELECT * FROM Cart WHERE UserID = :userId LIMIT 1")
     LiveData<CartEntity> getCartForUser(long userId);
+
+    @Query("SELECT * FROM Cart WHERE UserID = :userId LIMIT 1")
+    CartEntity getCartForUserSync(long userId);
 }

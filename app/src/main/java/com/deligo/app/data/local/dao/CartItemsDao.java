@@ -32,4 +32,7 @@ public interface CartItemsDao {
 
     @Query("DELETE FROM CartItems WHERE CartID = :cartId")
     void clearCart(long cartId);
+
+    @Query("SELECT * FROM CartItems WHERE CartID = :cartId AND FoodID = :foodId LIMIT 1")
+    CartItemEntity getCartItemSync(long cartId, long foodId);
 }
