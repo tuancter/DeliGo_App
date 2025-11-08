@@ -91,15 +91,15 @@ public abstract class DeliGoDatabase extends RoomDatabase {
                                             }
 
                                             UsersDao usersDao = database.usersDao();
-                                            UserEntity existingOwner = usersDao.getUserByEmail("owner@deligo.com");
+                                            UserEntity existingOwner = usersDao.getUserByEmail("admin@deligo.com");
                                             if (existingOwner != null) {
                                                 return;
                                             }
 
                                             UserEntity ownerUser = new UserEntity();
-                                            ownerUser.setFullName("Cửa hàng DeliGo");
-                                            ownerUser.setEmail("owner@deligo.com");
-                                            ownerUser.setPassword("owner123");
+                                            ownerUser.setFullName("Chủ cửa hàng");
+                                            ownerUser.setEmail("admin@deligo.com");
+                                            ownerUser.setPassword("admin123");
                                             ownerUser.setRole("Owner");
                                             ownerUser.setStatus("Active");
                                             usersDao.insert(ownerUser);
