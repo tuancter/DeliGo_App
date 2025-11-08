@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.deligo.app.data.local.dao.CartDao;
 import com.deligo.app.data.local.dao.CartItemsDao;
@@ -26,6 +27,9 @@ import com.deligo.app.data.local.entity.OrderEntity;
 import com.deligo.app.data.local.entity.ReviewEntity;
 import com.deligo.app.data.local.entity.UserEntity;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Database(
         entities = {
                 UserEntity.class,
@@ -45,6 +49,7 @@ public abstract class DeliGoDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "deligo_db";
     private static volatile DeliGoDatabase INSTANCE;
+    private static final ExecutorService databaseWriteExecutor = Executors.newSingleThreadExecutor();
 
     public abstract UsersDao usersDao();
 
@@ -73,6 +78,35 @@ public abstract class DeliGoDatabase extends RoomDatabase {
                                     DeliGoDatabase.class,
                                     DATABASE_NAME)
                             .fallbackToDestructiveMigration()
+                            .addCallback(new RoomDatabase.Callback() {
+                                @Override
+                                public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                                    super.onCreate(db);
+                                    databaseWriteExecutor.execute(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            DeliGoDatabase database = INSTANCE;
+                                            if (database == null) {
+                                                return;
+                                            }
+
+                                            UsersDao usersDao = database.usersDao();
+                                            UserEntity existingOwner = usersDao.getUserByEmail("owner@deligo.com");
+                                            if (existingOwner != null) {
+                                                return;
+                                            }
+
+                                            UserEntity ownerUser = new UserEntity();
+                                            ownerUser.setFullName("Cửa hàng DeliGo");
+                                            ownerUser.setEmail("owner@deligo.com");
+                                            ownerUser.setPassword("owner123");
+                                            ownerUser.setRole("Owner");
+                                            ownerUser.setStatus("Active");
+                                            usersDao.insert(ownerUser);
+                                        }
+                                    });
+                                }
+                            })
                             .build();
                 }
             }
