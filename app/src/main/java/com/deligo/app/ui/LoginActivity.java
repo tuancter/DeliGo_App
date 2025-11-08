@@ -3,10 +3,13 @@ package com.deligo.app.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +20,7 @@ import com.deligo.app.R;
 import com.deligo.app.data.local.DeliGoDatabase;
 import com.deligo.app.data.local.dao.UsersDao;
 import com.deligo.app.data.local.entity.UserEntity;
+import com.deligo.app.ui.owner.OwnerMainActivity;
 
 import java.util.Locale;
 import java.util.concurrent.Executor;
@@ -28,9 +32,11 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private Button loginButton;
     private TextView registerTextView;
+    private ImageButton passwordToggleButton;
 
     private UsersDao usersDao;
     private final Executor executor = Executors.newSingleThreadExecutor();
+    private boolean isPasswordVisible = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         initViews();
         setupLoginButton();
         setupRegisterLink();
+        setupPasswordToggle();
     }
 
     private void initViews() {
@@ -50,6 +57,34 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.editTextLoginPassword);
         loginButton = findViewById(R.id.buttonLogin);
         registerTextView = findViewById(R.id.textViewRegister);
+        passwordToggleButton = findViewById(R.id.buttonToggleLoginPassword);
+    }
+
+    private void setupPasswordToggle() {
+        if (passwordToggleButton == null) {
+            return;
+        }
+
+        passwordToggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isPasswordVisible = !isPasswordVisible;
+                updatePasswordVisibility();
+            }
+        });
+
+        updatePasswordVisibility();
+    }
+
+    private void updatePasswordVisibility() {
+        if (isPasswordVisible) {
+            passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            passwordToggleButton.setImageResource(R.drawable.ic_visibility_off);
+        } else {
+            passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            passwordToggleButton.setImageResource(R.drawable.ic_visibility);
+        }
+        passwordEditText.setSelection(passwordEditText.getText().length());
     }
 
     private void setupLoginButton() {
@@ -118,34 +153,37 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         String normalizedRole = role.trim().toLowerCase(Locale.US);
-        String targetClassName;
+        Class<?> targetClass;
         switch (normalizedRole) {
             case "customer":
-                targetClassName = "com.deligo.app.ui.CustomerMainActivity";
+                targetClass = CustomerMainActivity.class;
                 break;
             case "owner":
-                targetClassName = "com.deligo.app.ui.OwnerMainActivity";
+                targetClass = OwnerMainActivity.class;
                 break;
             case "shipper":
-                targetClassName = "com.deligo.app.ui.ShipperMainActivity";
+                try {
+                    targetClass = Class.forName("com.deligo.app.ui.ShipperMainActivity");
+                } catch (ClassNotFoundException e) {
+                    targetClass = null;
+                }
                 break;
             default:
-                targetClassName = null;
+                targetClass = null;
                 break;
         }
 
-        if (targetClassName == null) {
-            Toast.makeText(this, "Unknown user role", Toast.LENGTH_SHORT).show();
+        if (targetClass == null) {
+            if ("shipper".equals(normalizedRole)) {
+                Toast.makeText(this, "Destination screen not found", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Unknown user role", Toast.LENGTH_SHORT).show();
+            }
             return;
         }
 
-        try {
-            Class<?> targetClass = Class.forName(targetClassName);
-            Intent intent = new Intent(this, targetClass);
-            startActivity(intent);
-            finish();
-        } catch (ClassNotFoundException e) {
-            Toast.makeText(this, "Destination screen not found", Toast.LENGTH_SHORT).show();
-        }
+        Intent intent = new Intent(this, targetClass);
+        startActivity(intent);
+        finish();
     }
 }

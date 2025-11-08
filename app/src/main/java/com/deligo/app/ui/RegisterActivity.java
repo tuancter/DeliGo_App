@@ -2,11 +2,14 @@ package com.deligo.app.ui;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,9 +31,11 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private Spinner roleSpinner;
     private Button registerButton;
+    private ImageButton passwordToggleButton;
 
     private UsersDao usersDao;
     private final Executor executor = Executors.newSingleThreadExecutor();
+    private boolean isPasswordVisible = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
         initViews();
         setupRoleSpinner();
         setupRegisterButton();
+        setupPasswordToggle();
     }
 
     private void initViews() {
@@ -51,6 +57,34 @@ public class RegisterActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.editTextPassword);
         roleSpinner = findViewById(R.id.spinnerRole);
         registerButton = findViewById(R.id.buttonRegister);
+        passwordToggleButton = findViewById(R.id.buttonToggleRegisterPassword);
+    }
+
+    private void setupPasswordToggle() {
+        if (passwordToggleButton == null) {
+            return;
+        }
+
+        passwordToggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isPasswordVisible = !isPasswordVisible;
+                updatePasswordVisibility();
+            }
+        });
+
+        updatePasswordVisibility();
+    }
+
+    private void updatePasswordVisibility() {
+        if (isPasswordVisible) {
+            passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            passwordToggleButton.setImageResource(R.drawable.ic_visibility_off);
+        } else {
+            passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            passwordToggleButton.setImageResource(R.drawable.ic_visibility);
+        }
+        passwordEditText.setSelection(passwordEditText.getText().length());
     }
 
     private void setupRoleSpinner() {
