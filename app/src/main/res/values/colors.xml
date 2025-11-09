@@ -85,5 +85,9 @@
     <!-- Gradient Colors for Buttons/Cards (optional) -->
     <color name="deligo_gradient_start">@color/deligo_primary</color>
     <color name="deligo_gradient_end">@color/deligo_secondary</color>
+
+    <color name="color_surface">@color/deligo_surface</color>
+    <color name="color_background">@color/deligo_background</color>
+    <color name="color_primary">@color/deligo_primary</color>
 </resources>
 
