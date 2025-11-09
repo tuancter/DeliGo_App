@@ -9,6 +9,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.deligo.app.data.local.entity.CartItemEntity;
+import com.deligo.app.data.local.model.CartItemWithFood;
 
 import java.util.List;
 
@@ -29,6 +30,18 @@ public interface CartItemsDao {
 
     @Query("SELECT * FROM CartItems WHERE CartID = :cartId")
     LiveData<List<CartItemEntity>> getItemsForCart(long cartId);
+
+    @Query("SELECT * FROM CartItems WHERE CartID = :cartId")
+    List<CartItemEntity> getItemsForCartSync(long cartId);
+
+    @Query("SELECT ci.CartItemID AS cartItemId, ci.FoodID AS foodId, f.Name AS foodName, ci.Price AS price, ci.Quantity AS quantity FROM CartItems ci JOIN Foods f ON f.FoodID = ci.FoodID WHERE ci.CartID = :cartId")
+    LiveData<List<CartItemWithFood>> getItemsWithFood(long cartId);
+
+    @Query("SELECT * FROM CartItems WHERE CartItemID = :cartItemId LIMIT 1")
+    CartItemEntity getCartItemByIdSync(long cartItemId);
+
+    @Query("DELETE FROM CartItems WHERE CartItemID = :cartItemId")
+    void deleteById(long cartItemId);
 
     @Query("DELETE FROM CartItems WHERE CartID = :cartId")
     void clearCart(long cartId);

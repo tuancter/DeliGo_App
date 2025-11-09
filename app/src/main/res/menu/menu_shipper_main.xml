@@ -8,4 +8,8 @@
         android:id="@+id/navigation_my_deliveries"
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="@string/menu_my_deliveries" />
+    <item
+        android:id="@+id/navigation_shipper_profile"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Tài khoản" />
 </menu>

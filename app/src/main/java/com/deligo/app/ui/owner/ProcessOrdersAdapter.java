@@ -31,7 +31,7 @@ public class ProcessOrdersAdapter extends RecyclerView.Adapter<ProcessOrdersAdap
 
     private final List<OrderEntity> orders = new ArrayList<>();
     private final OnOrderActionListener listener;
-    private final NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
+    private final NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
 
     public ProcessOrdersAdapter(@NonNull OnOrderActionListener listener) {
         this.listener = listener;

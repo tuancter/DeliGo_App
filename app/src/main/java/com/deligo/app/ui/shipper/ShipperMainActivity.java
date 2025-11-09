@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.deligo.app.R;
 import com.deligo.app.data.UserSession;
+import com.deligo.app.ui.customer.UserFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ShipperMainActivity extends AppCompatActivity {
@@ -20,6 +21,7 @@ public class ShipperMainActivity extends AppCompatActivity {
     private long shipperId = -1L;
     private Fragment availableOrdersFragment;
     private Fragment myDeliveriesFragment;
+    private Fragment userFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,10 +41,12 @@ public class ShipperMainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             availableOrdersFragment = AvailableOrdersFragment.newInstance(shipperId);
             myDeliveriesFragment = MyDeliveriesFragment.newInstance(shipperId);
+            userFragment = new UserFragment();
             bottomNavigationView.setSelectedItemId(R.id.navigation_available_orders);
         } else {
             availableOrdersFragment = getSupportFragmentManager().findFragmentByTag(AvailableOrdersFragment.TAG);
             myDeliveriesFragment = getSupportFragmentManager().findFragmentByTag(MyDeliveriesFragment.TAG);
+            userFragment = getSupportFragmentManager().findFragmentByTag("user_fragment");
         }
     }
 
@@ -74,6 +78,12 @@ public class ShipperMainActivity extends AppCompatActivity {
             }
             selectedFragment = myDeliveriesFragment;
             tag = MyDeliveriesFragment.TAG;
+        } else if (itemId == R.id.navigation_shipper_profile) {
+            if (userFragment == null) {
+                userFragment = new UserFragment();
+            }
+            selectedFragment = userFragment;
+            tag = "user_fragment";
         } else {
             return false;
         }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,7 +35,7 @@ public class OrdersFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setupViewModel();
         setupRecyclerView(view);
-        observeOrders();
+        observeOrders(view);
     }
 
     private void setupViewModel() {
@@ -51,8 +52,13 @@ public class OrdersFragment extends Fragment {
         recyclerView.setAdapter(orderAdapter);
     }
 
-    private void observeOrders() {
+    private void observeOrders(@NonNull View view) {
+        final TextView textEmpty = view.findViewById(R.id.textEmptyOrders);
         orderViewModel.getOrdersByCustomer(DEFAULT_USER_ID)
-                .observe(getViewLifecycleOwner(), orderEntities -> orderAdapter.submitList(orderEntities));
+                .observe(getViewLifecycleOwner(), orderEntities -> {
+                    orderAdapter.submitList(orderEntities);
+                    boolean empty = orderEntities == null || orderEntities.isEmpty();
+                    textEmpty.setVisibility(empty ? View.VISIBLE : View.GONE);
+                });
     }
 }

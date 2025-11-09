@@ -9,8 +9,17 @@
         android:id="@+id/text_orders_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Orders"
+        android:text="Đơn hàng của tôi"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+
+    <TextView
+        android:id="@+id/textEmptyOrders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Bạn chưa có đơn hàng nào."
+        android:gravity="center"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewOrders"

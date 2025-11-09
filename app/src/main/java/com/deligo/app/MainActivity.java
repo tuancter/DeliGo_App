@@ -22,12 +22,13 @@ public class MainActivity extends AppCompatActivity {
         TextView databaseStatusView = findViewById(R.id.database_status);
 
         DeliGoDatabase database = DeliGoDatabase.getInstance(getApplicationContext());
+        DeliGoDatabase.ensureMockDataSeededAsync();
         String databaseName = database.getOpenHelper().getDatabaseName();
         if (databaseName == null) {
             databaseName = getString(R.string.unknown_database_name);
         }
 
-        databaseStatusView.setText(getString(R.string.database_ready_message, databaseName));
+        databaseStatusView.setText(getString(R.string.database_ready_message));
 
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override

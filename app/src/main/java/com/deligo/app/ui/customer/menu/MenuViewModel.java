@@ -48,7 +48,7 @@ public class MenuViewModel extends AndroidViewModel {
 
     public void addFoodToCart(final long userId, final FoodEntity food) {
         if (food == null) {
-            addToCartMessage.setValue("Unable to add this item to the cart");
+            addToCartMessage.setValue("Không thể thêm món này vào giỏ hàng");
             return;
         }
 
@@ -77,7 +77,7 @@ public class MenuViewModel extends AndroidViewModel {
                     cartItemsDao.update(existingItem);
                 }
 
-                addToCartMessage.postValue(food.getName() + " added to cart");
+                addToCartMessage.postValue("Đã thêm " + food.getName() + " vào giỏ hàng");
             }
         });
     }

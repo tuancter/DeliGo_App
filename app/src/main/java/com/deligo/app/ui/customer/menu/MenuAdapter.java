@@ -24,7 +24,7 @@ public class MenuAdapter extends ListAdapter<FoodEntity, MenuAdapter.MenuViewHol
     }
 
     private final OnAddToCartClickListener listener;
-    private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.getDefault());
+    private final NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
 
     public MenuAdapter(@NonNull OnAddToCartClickListener listener) {
         super(DIFF_CALLBACK);

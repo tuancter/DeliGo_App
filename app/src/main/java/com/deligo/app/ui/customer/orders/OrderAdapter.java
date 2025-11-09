@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.deligo.app.R;
 import com.deligo.app.data.local.entity.OrderEntity;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -18,6 +19,7 @@ import java.util.Locale;
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
     private final List<OrderEntity> orders = new ArrayList<>();
+    private final NumberFormat currency = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
 
     @NonNull
     @Override
@@ -29,7 +31,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         OrderEntity order = orders.get(position);
-        holder.bind(order);
+        holder.bind(order, currency);
     }
 
     @Override
@@ -58,10 +60,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             textOrderStatus = itemView.findViewById(R.id.textOrderStatus);
         }
 
-        void bind(@NonNull OrderEntity order) {
-            textOrderId.setText(String.format(Locale.getDefault(), "Order #%d", order.getOrderId()));
-            textOrderAmount.setText(String.format(Locale.getDefault(), "Total: %.2f", order.getTotalAmount()));
-            textOrderStatus.setText(String.format(Locale.getDefault(), "Status: %s", order.getOrderStatus()));
+        void bind(@NonNull OrderEntity order, @NonNull NumberFormat currency) {
+            textOrderId.setText(String.format(Locale.getDefault(), "Đơn #%d", order.getOrderId()));
+            textOrderAmount.setText(String.format(Locale.getDefault(), "Tổng: %s", currency.format(order.getTotalAmount())));
+            textOrderStatus.setText(String.format(Locale.getDefault(), "Trạng thái: %s", order.getOrderStatus()));
         }
     }
 }

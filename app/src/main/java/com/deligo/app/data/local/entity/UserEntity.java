@@ -29,6 +29,15 @@ public class UserEntity {
     @ColumnInfo(name = "Status")
     private String status;
 
+    @ColumnInfo(name = "Address")
+    private String address;
+
+    @ColumnInfo(name = "StoreName")
+    private String storeName;
+
+    @ColumnInfo(name = "AvatarUri")
+    private String avatarUri;
+
     @ColumnInfo(name = "CreatedAt")
     private String createdAt;
 
@@ -89,6 +98,30 @@ public class UserEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
+    public String getAvatarUri() {
+        return avatarUri;
+    }
+
+    public void setAvatarUri(String avatarUri) {
+        this.avatarUri = avatarUri;
     }
 
     public String getCreatedAt() {
