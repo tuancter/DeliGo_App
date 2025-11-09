@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private static final String TAG = "LoginActivity";
 
     private EditText emailEditText;
     private EditText passwordEditText;
@@ -132,17 +135,38 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        if (usersDao == null) {
+            Toast.makeText(this, R.string.login_unexpected_error, Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "UsersDao is not initialized, aborting login attempt");
+            return;
+        }
+
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                final UserEntity user = usersDao.checkUser(email, password);
+                UserEntity user = null;
+                Exception error = null;
+                try {
+                    user = usersDao.checkUser(email, password);
+                } catch (Exception e) {
+                    error = e;
+                    Log.e(TAG, "Failed to validate user credentials", e);
+                }
+
+                final UserEntity resultUser = user;
+                final Exception resultError = error;
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (user == null) {
+                        if (resultError != null) {
+                            Toast.makeText(LoginActivity.this, R.string.login_unexpected_error, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if (resultUser == null) {
                             Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
                         } else {
-                            navigateToRoleHome(user);
+                            navigateToRoleHome(resultUser);
                         }
                     }
                 });
