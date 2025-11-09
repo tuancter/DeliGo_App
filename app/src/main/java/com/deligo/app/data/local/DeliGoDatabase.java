@@ -71,6 +71,19 @@ public abstract class DeliGoDatabase extends RoomDatabase {
 
     public abstract ComplaintsDao complaintsDao();
 
+    public static void resetInstance(@NonNull Context context) {
+        synchronized (DeliGoDatabase.class) {
+            if (INSTANCE != null) {
+                try {
+                    INSTANCE.close();
+                } finally {
+                    INSTANCE = null;
+                }
+            }
+        }
+        context.deleteDatabase(DATABASE_NAME);
+    }
+
     public static DeliGoDatabase getInstance(@NonNull Context context) {
         if (INSTANCE == null) {
             synchronized (DeliGoDatabase.class) {
