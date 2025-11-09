@@ -13,9 +13,14 @@
         
         <!-- Error Colors -->
         <item name="colorError">@color/deligo_error</item>
+        <item name="colorOnError">@color/deligo_on_error</item>
         
         <!-- Background Colors -->
         <item name="android:colorBackground">@color/deligo_background</item>
+        
+        <!-- Surface Colors (Material Components requires this) -->
+        <item name="colorSurface">@color/deligo_surface</item>
+        <item name="colorOnSurface">@color/deligo_on_surface</item>
         
         <!-- Text Colors (using Android system colors) -->
         <item name="android:textColorPrimary">@color/deligo_text_primary</item>
