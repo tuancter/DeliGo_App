@@ -1,6 +1,7 @@
 package com.deligo.app.ui.auth;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
@@ -141,16 +142,36 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        attemptLogin(email, password, false);
+    }
+
+    private void attemptLogin(@NonNull final String email, @NonNull final String password, final boolean hasRetried) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
+                UsersDao dao = usersDao;
+                if (dao == null) {
+                    Log.e(TAG, "UsersDao became unavailable while attempting login");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(LoginActivity.this, R.string.login_unexpected_error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    return;
+                }
+
                 UserEntity user = null;
                 Exception error = null;
                 try {
-                    user = usersDao.checkUser(email, password);
+                    user = dao.checkUser(email, password);
                 } catch (Exception e) {
-                    error = e;
                     Log.e(TAG, "Failed to validate user credentials", e);
+                    if (!hasRetried && shouldAttemptDatabaseRecovery(e) && resetDatabaseAndReloadDao()) {
+                        attemptLogin(email, password, true);
+                        return;
+                    }
+                    error = e;
                 }
 
                 final UserEntity resultUser = user;
@@ -172,6 +193,38 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private boolean shouldAttemptDatabaseRecovery(@NonNull Exception e) {
+        if (e instanceof SQLiteException) {
+            return true;
+        }
+
+        String message = e.getMessage();
+        if (message == null) {
+            return false;
+        }
+
+        String normalizedMessage = message.toLowerCase(Locale.US);
+
+        return normalizedMessage.contains("no such table")
+                || normalizedMessage.contains("no such column")
+                || normalizedMessage.contains("room cannot verify")
+                || normalizedMessage.contains("database is locked")
+                || normalizedMessage.contains("malformed");
+    }
+
+    private boolean resetDatabaseAndReloadDao() {
+        try {
+            Log.w(TAG, "Attempting to reset Room database after login query failure");
+            DeliGoDatabase.resetInstance(getApplicationContext());
+            DeliGoDatabase database = DeliGoDatabase.getInstance(getApplicationContext());
+            usersDao = database.usersDao();
+            return usersDao != null;
+        } catch (Exception resetException) {
+            Log.e(TAG, "Unable to reset database during login recovery", resetException);
+            return false;
+        }
     }
 
     private void navigateToRoleHome(@NonNull UserEntity user) {
