@@ -1,4 +1,4 @@
-package com.deligo.app.ui.orders;
+package com.deligo.app.ui.customer.orders;
 
 import android.app.Application;
 

@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.deligo.app.data.local.DeliGoDatabase;
-import com.deligo.app.ui.LoginActivity;
+import com.deligo.app.ui.auth.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 

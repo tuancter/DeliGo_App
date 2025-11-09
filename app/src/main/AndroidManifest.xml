@@ -16,13 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.deligo.app.ui.LoginActivity" />
-        <activity android:name="com.deligo.app.ui.RegisterActivity" />
-        <activity android:name="com.deligo.app.ui.CustomerMainActivity" />
+        <activity android:name="com.deligo.app.ui.auth.LoginActivity" />
+        <activity android:name="com.deligo.app.ui.auth.RegisterActivity" />
+        <activity android:name="com.deligo.app.ui.customer.CustomerMainActivity" />
         <activity android:name="com.deligo.app.ui.owner.OwnerMainActivity" />
-        <activity android:name="com.deligo.app.ui.ShipperMainActivity" />
+        <activity android:name="com.deligo.app.ui.shipper.ShipperMainActivity" />
         <activity android:name="com.deligo.app.ui.shipper.DeliveryDetailActivity"
-            android:parentActivityName="com.deligo.app.ui.ShipperMainActivity" />
+            android:parentActivityName="com.deligo.app.ui.shipper.ShipperMainActivity" />
     </application>
 
 </manifest>

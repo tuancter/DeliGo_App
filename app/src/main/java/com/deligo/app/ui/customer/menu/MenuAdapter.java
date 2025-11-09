@@ -1,4 +1,4 @@
-package com.deligo.app.ui.menu;
+package com.deligo.app.ui.customer.menu;
 
 import android.view.LayoutInflater;
 import android.view.View;

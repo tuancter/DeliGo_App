@@ -1,4 +1,4 @@
-package com.deligo.app.ui;
+package com.deligo.app.ui.shipper;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,8 +11,6 @@ import androidx.fragment.app.Fragment;
 
 import com.deligo.app.R;
 import com.deligo.app.data.UserSession;
-import com.deligo.app.ui.shipper.AvailableOrdersFragment;
-import com.deligo.app.ui.shipper.MyDeliveriesFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ShipperMainActivity extends AppCompatActivity {
