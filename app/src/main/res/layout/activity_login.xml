@@ -1,113 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:background="@color/deligo_background">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <!-- Ảnh nền toàn màn hình -->
+    <ImageView
+        android:id="@+id/img_background_login"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/app_name" />
 
-        <!-- Logo/Title Section -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="48dp"
-            android:layout_marginBottom="48dp"
-            android:text="DeliGo"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-            android:textColor="@color/deligo_primary"
-            android:textStyle="bold" />
+    <!-- Nội dung scroll được, KHÔNG set background ở đây nữa -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <!-- Email Input -->
-        <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
-            app:hintTextColor="@color/deligo_primary"
-            app:boxStrokeColor="@color/deligo_primary"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_marginBottom="16dp">
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:gravity="center_vertical"
+            android:background="@android:color/transparent">
+            <!-- #80000000 = đen trong suốt 50%, giúp chữ dễ đọc.
+                 Nếu không thích, có thể đổi thành @android:color/transparent -->
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextLoginEmail"
-                android:layout_width="match_parent"
+            <!-- Logo/Title Section -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:imeOptions="actionNext"
-                android:textColor="@color/deligo_text_primary"
-                android:textColorHint="@color/deligo_text_secondary" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="48dp"
+                android:layout_marginBottom="48dp"
+                android:text="DeliGo"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+                android:textColor="@color/deligo_primary"
+                android:textStyle="bold" />
 
-        <!-- Password Input -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp">
-
+            <!-- Email Input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:hint="Email"
                 app:hintTextColor="@color/deligo_primary"
                 app:boxStrokeColor="@color/deligo_primary"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_marginBottom="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextLoginPassword"
+                    android:id="@+id/editTextLoginEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:imeOptions="actionDone"
-                    android:paddingEnd="48dp"
-                    android:paddingRight="48dp"
+                    android:inputType="textEmailAddress"
+                    android:imeOptions="actionNext"
                     android:textColor="@color/deligo_text_primary"
                     android:textColorHint="@color/deligo_text_secondary" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageButton
-                android:id="@+id/buttonToggleLoginPassword"
+            <!-- Password Input -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    app:hintTextColor="@color/deligo_primary"
+                    app:boxStrokeColor="@color/deligo_primary"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextLoginPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:imeOptions="actionDone"
+                        android:paddingEnd="48dp"
+                        android:paddingRight="48dp"
+                        android:textColor="@color/deligo_text_primary"
+                        android:textColorHint="@color/deligo_text_secondary" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageButton
+                    android:id="@+id/buttonToggleLoginPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/toggle_password_visibility"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_visibility"
+                    app:tint="@color/deligo_primary" />
+            </RelativeLayout>
+
+            <!-- Login Button -->
+            <Button
+                android:id="@+id/buttonLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Đăng nhập"
+                style="@style/Widget.DeliGo.Button"
+                android:layout_marginTop="8dp" />
+
+            <!-- Register Link -->
+            <TextView
+                android:id="@+id/textViewRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="12dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/toggle_password_visibility"
-                android:padding="8dp"
-                android:src="@drawable/ic_visibility"
-                app:tint="@color/deligo_primary" />
-        </RelativeLayout>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:text="Chưa có tài khoản? Đăng ký ngay"
+                android:textColor="@color/deligo_primary"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp" />
 
-        <!-- Login Button -->
-        <Button
-            android:id="@+id/buttonLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Đăng nhập"
-            style="@style/Widget.DeliGo.Button"
-            android:layout_marginTop="8dp" />
+        </LinearLayout>
+    </ScrollView>
 
-        <!-- Register Link -->
-        <TextView
-            android:id="@+id/textViewRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
-            android:text="Chưa có tài khoản? Đăng ký ngay"
-            android:textColor="@color/deligo_primary"
-            android:textStyle="bold"
-            android:textSize="14sp"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="8dp" />
-
-    </LinearLayout>
-</ScrollView>
+</FrameLayout>

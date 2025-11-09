@@ -251,7 +251,6 @@ public abstract class DeliGoDatabase extends RoomDatabase {
         java.util.function.BiConsumer<String, FoodEntity> finalizeFood = (n, f) -> {
             f.setName(n);
             f.setAvailable(true);
-            f.setImageUrl("");
             long id = foodsDao.insert(f);
             f.setFoodId(id);
             foods.add(f);
@@ -259,37 +258,37 @@ public abstract class DeliGoDatabase extends RoomDatabase {
 
         // Pizza
         {
-            FoodEntity f1 = new FoodEntity(); f1.setCategoryId(categoryIds.get(0)); f1.setDescription("Pizza xúc xích thơm ngon"); f1.setPrice(99000);
+            FoodEntity f1 = new FoodEntity(); f1.setCategoryId(categoryIds.get(0)); f1.setDescription("Pizza xúc xích thơm ngon"); f1.setPrice(99000); f1.setImageUrl("https://img.dominos.vn/cach-lam-banh-pizza-xuc-xich-4.jpg");
             finalizeFood.accept("Pizza Xúc Xích", f1);
-            FoodEntity f2 = new FoodEntity(); f2.setCategoryId(categoryIds.get(0)); f2.setDescription("Pizza hải sản đặc biệt"); f2.setPrice(129000);
+            FoodEntity f2 = new FoodEntity(); f2.setCategoryId(categoryIds.get(0)); f2.setDescription("Pizza hải sản đặc biệt"); f2.setPrice(129000); f2.setImageUrl("https://thepizzacompany.vn/images/thumbs/000/0002214_sf-deluxe_500.png");
             finalizeFood.accept("Pizza Hải Sản", f2);
         }
         // Burger
         {
-            FoodEntity f1 = new FoodEntity(); f1.setCategoryId(categoryIds.get(1)); f1.setDescription("Burger bò phô mai"); f1.setPrice(59000);
+            FoodEntity f1 = new FoodEntity(); f1.setCategoryId(categoryIds.get(1)); f1.setDescription("Burger bò phô mai"); f1.setPrice(59000); f1.setImageUrl("https://product.hstatic.net/200000848723/product/2_356e19838a61405292c8b5bb03ce4075_master.jpg");
             finalizeFood.accept("Burger Bò", f1);
-            FoodEntity f2 = new FoodEntity(); f2.setCategoryId(categoryIds.get(1)); f2.setDescription("Burger gà giòn"); f2.setPrice(49000);
+            FoodEntity f2 = new FoodEntity(); f2.setCategoryId(categoryIds.get(1)); f2.setDescription("Burger gà giòn"); f2.setPrice(49000); f2.setImageUrl("https://product.hstatic.net/200000848723/product/37_4032a7a363934af3bf9d15a93ff08e19_grande.jpg");
             finalizeFood.accept("Burger Gà", f2);
         }
         // Drinks
         {
-            FoodEntity f1 = new FoodEntity(); f1.setCategoryId(categoryIds.get(2)); f1.setDescription("Nước ngọt Coca-Cola"); f1.setPrice(15000);
+            FoodEntity f1 = new FoodEntity(); f1.setCategoryId(categoryIds.get(2)); f1.setDescription("Nước ngọt Coca-Cola"); f1.setPrice(15000); f1.setImageUrl("https://www.lottemart.vn/media/catalog/product/cache/0x0/8/9/8935049501503-2.jpg.webp");
             finalizeFood.accept("Coca-Cola", f1);
-            FoodEntity f2 = new FoodEntity(); f2.setCategoryId(categoryIds.get(2)); f2.setDescription("Trà sữa trân châu"); f2.setPrice(35000);
+            FoodEntity f2 = new FoodEntity(); f2.setCategoryId(categoryIds.get(2)); f2.setDescription("Trà sữa trân châu"); f2.setPrice(35000); f2.setImageUrl("https://vietnam-tea.com/wp-content/uploads/2022/02/boba-milk-tea.jpg");
             finalizeFood.accept("Trà Sữa", f2);
         }
         // Desserts
         {
-            FoodEntity f1 = new FoodEntity(); f1.setCategoryId(categoryIds.get(3)); f1.setDescription("Bánh phô mai"); f1.setPrice(45000);
+            FoodEntity f1 = new FoodEntity(); f1.setCategoryId(categoryIds.get(3)); f1.setDescription("Bánh phô mai"); f1.setPrice(45000); f1.setImageUrl("https://defencebakery.in/cdn/shop/files/Baked_Blueberry_Cheese_Cake_Slice_ef445093-dd01-4787-abff-71405d70fadc.png?v=1756545001");
             finalizeFood.accept("Cheesecake", f1);
-            FoodEntity f2 = new FoodEntity(); f2.setCategoryId(categoryIds.get(3)); f2.setDescription("Bánh flan caramel"); f2.setPrice(25000);
+            FoodEntity f2 = new FoodEntity(); f2.setCategoryId(categoryIds.get(3)); f2.setDescription("Bánh flan caramel"); f2.setPrice(25000); f2.setImageUrl("https://scruffandsteph.com/wp-content/uploads/2020/11/Banh-Flan-5.jpg");
             finalizeFood.accept("Bánh Flan", f2);
         }
         // Pasta
         {
-            FoodEntity f1 = new FoodEntity(); f1.setCategoryId(categoryIds.get(4)); f1.setDescription("Mì Ý bò bằm truyền thống"); f1.setPrice(79000);
+            FoodEntity f1 = new FoodEntity(); f1.setCategoryId(categoryIds.get(4)); f1.setDescription("Mì Ý bò bằm truyền thống"); f1.setPrice(79000); f1.setImageUrl("https://file.hstatic.net/200000700229/article/mi-y-sot-bo-bam-thumb_033c1c63fa4f4f1c89c6440b9326da21.jpg");
             finalizeFood.accept("Mì Ý Bò Bằm", f1);
-            FoodEntity f2 = new FoodEntity(); f2.setCategoryId(categoryIds.get(4)); f2.setDescription("Mì Ý hải sản sốt kem"); f2.setPrice(99000);
+            FoodEntity f2 = new FoodEntity(); f2.setCategoryId(categoryIds.get(4)); f2.setDescription("Mì Ý hải sản sốt kem"); f2.setPrice(99000); f2.setImageUrl("https://beptruong.edu.vn/wp-content/uploads/2018/07/mon-mi-y-hai-san.jpg");
             finalizeFood.accept("Mì Ý Hải Sản", f2);
         }
 

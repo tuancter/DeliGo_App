@@ -11,48 +11,68 @@
     app:strokeWidth="0dp"
     app:cardBackgroundColor="@color/deligo_surface">
 
+    <!-- Bố cục ngang: ảnh bên trái, nội dung bên phải -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/textFoodName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:textStyle="bold"
-            android:textColor="@color/deligo_text_primary" />
+        <!-- Ảnh món ăn -->
+        <ImageView
+            android:id="@+id/imageFood"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginEnd="12dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/app_name"
+            android:background="@drawable/bg_food_image_placeholder" />
 
-        <TextView
-            android:id="@+id/textFoodPrice"
-            android:layout_width="match_parent"
+        <!-- Khối nội dung bên phải -->
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:textColor="@color/deligo_primary"
-            android:textStyle="bold"
-            android:textSize="16sp" />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textFoodDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:textColor="@color/deligo_text_secondary"
-            android:maxLines="2"
-            android:ellipsize="end" />
+            <TextView
+                android:id="@+id/textFoodName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textStyle="bold"
+                android:textColor="@color/deligo_text_primary" />
 
-        <Button
-            android:id="@+id/buttonAddToCart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="12dp"
-            android:text="Thêm vào giỏ"
-            style="@style/Widget.DeliGo.Button" />
+            <TextView
+                android:id="@+id/textFoodPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/deligo_primary"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textFoodDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/deligo_text_secondary"
+                android:maxLines="2"
+                android:ellipsize="end" />
+
+            <Button
+                android:id="@+id/buttonAddToCart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="12dp"
+                android:text="Thêm vào giỏ"
+                style="@style/Widget.DeliGo.Button" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

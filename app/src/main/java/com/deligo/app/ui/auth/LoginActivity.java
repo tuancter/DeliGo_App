@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.deligo.app.R;
 import com.deligo.app.data.UserSession;
 import com.deligo.app.data.local.DeliGoDatabase;
@@ -36,6 +41,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
 
+    // 👉 Có thể dùng chung URL với MainActivity hoặc chọn ảnh riêng cho màn login
+    private static final String BG_IMAGE_URL =
+            "https://www.urlaubstracker.de/wp-content/uploads/2019/05/oesterreich-wien-restaurant-kathedrale-2048x1366.jpg";
+
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button loginButton;
@@ -50,6 +59,37 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // Load background image
+        ImageView backgroundImageView = findViewById(R.id.img_background_login);
+        if (backgroundImageView != null) {
+            Log.d(TAG, "Loading login background from URL: " + BG_IMAGE_URL);
+            Glide.with(this)
+                    .load(BG_IMAGE_URL)
+                    .listener(new RequestListener<android.graphics.drawable.Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                    Target<android.graphics.drawable.Drawable> target,
+                                                    boolean isFirstResource) {
+                            Log.e(TAG, "❌ Glide login background load failed: "
+                                    + (e != null ? e.getMessage() : "unknown"), e);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(android.graphics.drawable.Drawable resource,
+                                                       Object model,
+                                                       Target<android.graphics.drawable.Drawable> target,
+                                                       com.bumptech.glide.load.DataSource dataSource,
+                                                       boolean isFirstResource) {
+                            Log.i(TAG, "✅ Glide login background loaded from: " + dataSource);
+                            return false;
+                        }
+                    })
+                    .placeholder(R.color.deligo_background)
+                    .error(R.color.deligo_background)
+                    .into(backgroundImageView);
+        }
 
         DeliGoDatabase database = DeliGoDatabase.getInstance(getApplicationContext());
         usersDao = database.usersDao();

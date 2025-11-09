@@ -25,7 +25,7 @@
     <color name="deligo_on_surface_variant">#7A7A7A</color>
     
     <!-- Text Colors -->
-    <color name="deligo_text_primary">#2E2E2E</color>
+    <color name="deligo_text_primary">#FFFFFF</color>
     <color name="deligo_text_secondary">#7A7A7A</color>
     <color name="deligo_text_disabled">#CCCCCC</color>
     
