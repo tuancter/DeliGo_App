@@ -49,7 +49,10 @@ public class AvailableOrdersFragment extends Fragment implements AvailableOrders
         if (getArguments() != null) {
             shipperId = getArguments().getLong(ARG_SHIPPER_ID, -1L);
         }
-        viewModel = new ViewModelProvider(this).get(AvailableOrdersViewModel.class);
+        viewModel = new ViewModelProvider(
+                this,
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()))
+                .get(AvailableOrdersViewModel.class);
         setupRecyclerView(view);
         observeOrders();
     }

@@ -41,7 +41,10 @@ public class MenuFragment extends Fragment {
     }
 
     private void setupViewModel() {
-        menuViewModel = new ViewModelProvider(this).get(MenuViewModel.class);
+        menuViewModel = new ViewModelProvider(
+                this,
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()))
+                .get(MenuViewModel.class);
     }
 
     private void setupRecyclerView(@NonNull View view) {

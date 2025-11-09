@@ -38,7 +38,10 @@ public class OrdersFragment extends Fragment {
     }
 
     private void setupViewModel() {
-        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+        orderViewModel = new ViewModelProvider(
+                this,
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()))
+                .get(OrderViewModel.class);
     }
 
     private void setupRecyclerView(@NonNull View view) {
