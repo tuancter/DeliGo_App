@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/deligo_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,14 +15,16 @@
             android:layout_height="wrap_content"
             android:text="@string/delivery_address_label"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/deligo_text_primary" />
 
         <TextView
             android:id="@+id/textDeliveryDetailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="@color/deligo_text_primary" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,21 +32,24 @@
             android:layout_marginTop="16dp"
             android:text="@string/customer_phone_label"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/deligo_text_primary" />
 
         <TextView
             android:id="@+id/textDeliveryDetailPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="@color/deligo_text_primary" />
 
         <Button
             android:id="@+id/buttonCompleteDelivery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/complete_delivery" />
+            android:text="@string/complete_delivery"
+            style="@style/Widget.DeliGo.Button" />
 
     </LinearLayout>
 

@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/deligo_background">
 
     <TextView
         android:id="@+id/text_orders_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Đơn hàng của tôi"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textColor="@color/deligo_text_primary"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
 
     <TextView
         android:id="@+id/textEmptyOrders"
@@ -19,6 +23,7 @@
         android:layout_marginTop="24dp"
         android:text="Bạn chưa có đơn hàng nào."
         android:gravity="center"
+        android:textColor="@color/deligo_text_secondary"
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView

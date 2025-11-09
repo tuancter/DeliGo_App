@@ -7,78 +7,105 @@
     android:paddingStart="24dp"
     android:paddingEnd="24dp"
     android:paddingTop="8dp"
-    android:paddingBottom="16dp">
+    android:paddingBottom="16dp"
+    android:background="@color/deligo_background">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_food_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/food_name_hint">
+        android:hint="@string/food_name_hint"
+        app:hintTextColor="@color/deligo_primary"
+        app:boxStrokeColor="@color/deligo_primary"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="12dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_food_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textCapWords" />
+            android:inputType="textCapWords"
+            android:textColor="@color/deligo_text_primary"
+            android:textColorHint="@color/deligo_text_secondary" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_food_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:hint="@string/food_price_hint">
+        android:hint="@string/food_price_hint"
+        app:hintTextColor="@color/deligo_primary"
+        app:boxStrokeColor="@color/deligo_primary"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="12dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_food_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:textColor="@color/deligo_text_primary"
+            android:textColorHint="@color/deligo_text_secondary" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_food_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:hint="@string/food_category_hint"
-        app:endIconMode="dropdown_menu">
+        app:endIconMode="dropdown_menu"
+        app:hintTextColor="@color/deligo_primary"
+        app:boxStrokeColor="@color/deligo_primary"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="12dp">
 
         <AutoCompleteTextView
             android:id="@+id/input_food_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:importantForAutofill="no"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textColor="@color/deligo_text_primary"
+            android:textColorHint="@color/deligo_text_secondary" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_food_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:hint="@string/food_description_hint">
+        android:hint="@string/food_description_hint"
+        app:hintTextColor="@color/deligo_primary"
+        app:boxStrokeColor="@color/deligo_primary"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="12dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_food_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
-            android:maxLines="4" />
+            android:maxLines="4"
+            android:textColor="@color/deligo_text_primary"
+            android:textColorHint="@color/deligo_text_secondary" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_food_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:hint="@string/food_image_hint">
+        android:hint="@string/food_image_hint"
+        app:hintTextColor="@color/deligo_primary"
+        app:boxStrokeColor="@color/deligo_primary"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="12dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_food_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textUri" />
+            android:inputType="textUri"
+            android:textColor="@color/deligo_text_primary"
+            android:textColorHint="@color/deligo_text_secondary" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
@@ -86,6 +113,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/food_status_switch_label" />
+        android:text="@string/food_status_switch_label"
+        app:thumbTint="@color/deligo_primary"
+        app:trackTint="@color/deligo_primary_light" />
 
 </LinearLayout>
