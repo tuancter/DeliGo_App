@@ -241,6 +241,7 @@ public class LoginActivity extends AppCompatActivity {
             case "customer":
                 targetClass = CustomerMainActivity.class;
                 break;
+            case "admin":
             case "owner":
                 targetClass = OwnerMainActivity.class;
                 break;
