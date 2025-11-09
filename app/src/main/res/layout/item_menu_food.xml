@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
-    app:cardUseCompatPadding="true"
-    app:cardCornerRadius="8dp">
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="12dp"
+    app:strokeWidth="0dp"
+    app:cardBackgroundColor="@color/deligo_surface">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,22 +23,37 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:textStyle="bold"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/deligo_text_primary" />
 
         <TextView
             android:id="@+id/textFoodPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="@color/deligo_primary"
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textFoodDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="@color/deligo_text_secondary"
+            android:maxLines="2"
+            android:ellipsize="end" />
 
         <Button
             android:id="@+id/buttonAddToCart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:layout_marginTop="12dp"
-            android:text="Thêm vào giỏ" />
+            android:text="Thêm vào giỏ"
+            style="@style/Widget.DeliGo.Button" />
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

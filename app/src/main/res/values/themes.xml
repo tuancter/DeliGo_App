@@ -1,14 +1,99 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.DeliGo" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@android:color/holo_orange_light</item>
-        <item name="colorPrimaryVariant">@android:color/holo_orange_dark</item>
-        <item name="colorOnPrimary">@android:color/white</item>
-        <item name="colorSecondary">@android:color/holo_green_light</item>
-        <item name="colorSecondaryVariant">@android:color/holo_green_dark</item>
-        <item name="colorOnSecondary">@android:color/black</item>
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+    <!-- Material Design 3 Theme for DeliGo -->
+    <style name="Theme.DeliGo" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary Colors -->
+        <item name="colorPrimary">@color/deligo_primary</item>
+        <item name="colorOnPrimary">@color/deligo_on_primary</item>
+        <item name="colorPrimaryContainer">@color/deligo_primary_light</item>
+        <item name="colorOnPrimaryContainer">@color/deligo_on_primary</item>
+        
+        <!-- Secondary Colors -->
+        <item name="colorSecondary">@color/deligo_secondary</item>
+        <item name="colorOnSecondary">@color/deligo_on_secondary</item>
+        <item name="colorSecondaryContainer">@color/deligo_secondary_light</item>
+        <item name="colorOnSecondaryContainer">@color/deligo_on_secondary</item>
+        
+        <!-- Tertiary Colors -->
+        <item name="colorTertiary">@color/deligo_secondary</item>
+        <item name="colorOnTertiary">@color/deligo_on_secondary</item>
+        <item name="colorTertiaryContainer">@color/deligo_secondary_light</item>
+        <item name="colorOnTertiaryContainer">@color/deligo_on_secondary</item>
+        
+        <!-- Error Colors -->
+        <item name="colorError">@color/deligo_error</item>
+        <item name="colorOnError">@color/deligo_on_error</item>
+        <item name="colorErrorContainer">#FFE5E8</item>
+        <item name="colorOnErrorContainer">@color/deligo_error</item>
+        
+        <!-- Background Colors -->
+        <item name="android:colorBackground">@color/deligo_background</item>
+        <item name="colorOnBackground">@color/deligo_on_background</item>
+        
+        <!-- Surface Colors -->
+        <item name="colorSurface">@color/deligo_surface</item>
+        <item name="colorOnSurface">@color/deligo_on_surface</item>
+        <item name="colorSurfaceVariant">@color/deligo_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/deligo_on_surface_variant</item>
+        
+        <!-- Outline Colors -->
+        <item name="colorOutline">@color/deligo_outline</item>
+        <item name="colorOutlineVariant">@color/deligo_outline_variant</item>
+        
+        <!-- Surface Tint -->
+        <item name="colorSurfaceTint">@color/deligo_primary</item>
+        
+        <!-- Window Colors -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar">true</item>
+        
+        <!-- Material 3 specific attributes -->
+        <item name="materialCardViewStyle">@style/Widget.DeliGo.CardView</item>
+        <item name="buttonStyle">@style/Widget.DeliGo.Button</item>
+        <item name="materialButtonStyle">@style/Widget.DeliGo.Button</item>
+    </style>
+    
+    <!-- CardView Style with DeliGo colors -->
+    <style name="Widget.DeliGo.CardView" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/deligo_surface</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="strokeWidth">0dp</item>
+    </style>
+    
+    <!-- Button Style with DeliGo colors -->
+    <style name="Widget.DeliGo.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/deligo_primary</item>
+        <item name="android:textColor">@color/deligo_on_primary</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+    
+    <!-- Outlined Button Style -->
+    <style name="Widget.DeliGo.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="strokeColor">@color/deligo_primary</item>
+        <item name="android:textColor">@color/deligo_primary</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="strokeWidth">2dp</item>
+    </style>
+    
+    <!-- Text Button Style -->
+    <style name="Widget.DeliGo.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/deligo_primary</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+    
+    <!-- FAB Style -->
+    <style name="Widget.DeliGo.FAB" parent="Widget.Material3.Fab">
+        <item name="backgroundTint">@color/deligo_secondary</item>
+        <item name="tint">@color/deligo_on_secondary</item>
+        <item name="elevation">6dp</item>
     </style>
 </resources>
+

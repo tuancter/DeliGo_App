@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@color/deligo_background">
 
         <TextView
             android:id="@+id/text_empty_foods"
@@ -19,6 +20,7 @@
             android:padding="24dp"
             android:text="@string/no_foods_placeholder"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="@color/deligo_text_secondary"
             android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -26,7 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:clipToPadding="false" />
+            android:clipToPadding="false"
+            android:paddingBottom="16dp" />
 
     </LinearLayout>
 
@@ -38,6 +41,9 @@
         android:contentDescription="@string/add_new_food"
         app:layout_anchor="@id/container_manage_menu"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:backgroundTint="@color/deligo_secondary"
+        app:tint="@color/deligo_on_secondary"
+        app:elevation="6dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

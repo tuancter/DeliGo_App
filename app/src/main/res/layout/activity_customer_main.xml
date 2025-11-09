@@ -15,7 +15,11 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
+        android:background="@color/deligo_surface"
+        app:itemIconTint="@color/nav_item_color_selector"
+        app:itemTextColor="@color/nav_item_color_selector"
+        app:itemRippleColor="@color/deligo_primary_light"
+        app:elevation="8dp"
         app:menu="@menu/menu_customer_main" />
 
 </LinearLayout>

@@ -4,64 +4,75 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
-    app:cardElevation="2dp"
-    app:cardUseCompatPadding="true">
+    app:cardElevation="4dp"
+    app:cardCornerRadius="12dp"
+    app:strokeWidth="0dp"
+    app:cardBackgroundColor="@color/deligo_surface">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@color/deligo_surface">
 
         <TextView
             android:id="@+id/text_order_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/deligo_primary" />
 
         <TextView
             android:id="@+id/text_customer_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="@color/deligo_text_secondary" />
 
         <TextView
             android:id="@+id/text_total_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="@color/deligo_primary"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/text_delivery_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="@color/deligo_text_primary" />
 
         <TextView
             android:id="@+id/text_payment_method"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="@color/deligo_text_secondary" />
 
         <TextView
             android:id="@+id/text_order_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/deligo_secondary" />
 
         <TextView
             android:id="@+id/text_created_at"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:textColor="@color/deligo_text_secondary" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,7 +83,7 @@
 
             <Button
                 android:id="@+id/button_cancel_order"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.DeliGo.Button.Outlined"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -80,7 +91,7 @@
 
             <Button
                 android:id="@+id/button_confirm_order"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/Widget.DeliGo.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -88,9 +99,10 @@
 
             <Button
                 android:id="@+id/button_ready_for_pickup"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/Widget.DeliGo.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/deligo_secondary"
                 android:text="@string/ready_for_pickup" />
         </LinearLayout>
 

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="8dp"
     android:layout_marginHorizontal="4dp"
-    app:cardElevation="2dp"
-    app:cardUseCompatPadding="true">
+    app:cardElevation="4dp"
+    app:cardCornerRadius="12dp"
+    app:strokeWidth="0dp"
+    app:cardBackgroundColor="@color/deligo_surface">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:textColor="@android:color/black"
+            android:textColor="@color/deligo_text_primary"
             android:textStyle="bold" />
 
         <TextView
@@ -28,14 +30,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="@color/deligo_text_secondary"
+            android:maxLines="2"
+            android:ellipsize="end" />
 
         <TextView
             android:id="@+id/text_food_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="@color/deligo_primary"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/text_food_category"
@@ -43,13 +49,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="@color/deligo_text_secondary" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
@@ -57,13 +63,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/deligo_text_secondary" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switch_food_available"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp" />
+                android:layout_marginStart="12dp"
+                app:thumbTint="@color/deligo_primary"
+                app:trackTint="@color/deligo_primary_light" />
         </LinearLayout>
 
         <LinearLayout
@@ -75,18 +84,19 @@
 
             <Button
                 android:id="@+id/button_edit_food"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.DeliGo.Button.Text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/edit" />
 
             <Button
                 android:id="@+id/button_delete_food"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.DeliGo.Button.Text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/delete" />
+                android:text="@string/delete"
+                android:textColor="@color/deligo_error" />
         </LinearLayout>
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

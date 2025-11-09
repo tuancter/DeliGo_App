@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/deligo_background">
 
     <TextView
         android:id="@+id/textCartTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Giỏ hàng"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textColor="@color/deligo_text_primary"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
 
     <TextView
         android:id="@+id/textEmptyCart"
@@ -19,6 +24,8 @@
         android:layout_marginTop="24dp"
         android:text="Giỏ hàng của bạn đang trống. Hãy thêm món ăn để tiếp tục."
         android:gravity="center"
+        android:textColor="@color/deligo_text_secondary"
+        android:textSize="16sp"
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -27,42 +34,59 @@
         android:layout_height="0dp"
         android:layout_marginTop="12dp"
         android:layout_weight="1"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"
+        android:paddingBottom="16dp" />
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/layoutSummary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="8dp">
-
-        <TextView
-            android:id="@+id/textTotal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tổng: 0đ"
-            android:textStyle="bold" />
+        android:layout_marginTop="8dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="12dp"
+        app:cardBackgroundColor="@color/deligo_surface"
+        app:strokeWidth="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="end"
-            android:layout_marginTop="8dp">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <Button
-                android:id="@+id/buttonContinueShopping"
+            <TextView
+                android:id="@+id/textTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tiếp tục mua sắm" />
+                android:text="Tổng: 0đ"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:textColor="@color/deligo_primary"
+                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/buttonCheckout"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tiến hành đặt hàng"
-                android:layout_marginStart="12dp" />
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_marginTop="16dp">
+
+                <Button
+                    android:id="@+id/buttonContinueShopping"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tiếp tục mua sắm"
+                    style="@style/Widget.DeliGo.Button.Outlined"
+                    android:layout_marginEnd="8dp" />
+
+                <Button
+                    android:id="@+id/buttonCheckout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Đặt hàng"
+                    style="@style/Widget.DeliGo.Button" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
