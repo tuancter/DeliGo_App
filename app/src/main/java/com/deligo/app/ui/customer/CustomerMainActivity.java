@@ -1,4 +1,4 @@
-package com.deligo.app.ui;
+package com.deligo.app.ui.customer;
 
 import android.os.Bundle;
 

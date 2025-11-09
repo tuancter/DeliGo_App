@@ -1,4 +1,4 @@
-package com.deligo.app.ui;
+package com.deligo.app.ui.customer;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.deligo.app.R;
-import com.deligo.app.ui.orders.OrderAdapter;
-import com.deligo.app.ui.orders.OrderViewModel;
+import com.deligo.app.ui.customer.orders.OrderAdapter;
+import com.deligo.app.ui.customer.orders.OrderViewModel;
 
 public class OrdersFragment extends Fragment {
 
@@ -38,7 +38,10 @@ public class OrdersFragment extends Fragment {
     }
 
     private void setupViewModel() {
-        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+        orderViewModel = new ViewModelProvider(
+                this,
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()))
+                .get(OrderViewModel.class);
     }
 
     private void setupRecyclerView(@NonNull View view) {

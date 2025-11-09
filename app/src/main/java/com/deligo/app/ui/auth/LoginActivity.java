@@ -1,36 +1,41 @@
-package com.deligo.app.ui;
+package com.deligo.app.ui.auth;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.deligo.app.R;
+import com.deligo.app.data.UserSession;
 import com.deligo.app.data.local.DeliGoDatabase;
 import com.deligo.app.data.local.dao.UsersDao;
 import com.deligo.app.data.local.entity.UserEntity;
+import com.deligo.app.ui.customer.CustomerMainActivity;
+import com.deligo.app.ui.owner.OwnerMainActivity;
+import com.deligo.app.ui.shipper.ShipperMainActivity;
 
+import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class RegisterActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
-    private EditText fullNameEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
-    private Spinner roleSpinner;
-    private Button registerButton;
+    private Button loginButton;
+    private TextView registerTextView;
     private ImageButton passwordToggleButton;
 
     private UsersDao usersDao;
@@ -40,24 +45,23 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.activity_login);
 
         DeliGoDatabase database = DeliGoDatabase.getInstance(getApplicationContext());
         usersDao = database.usersDao();
 
         initViews();
-        setupRoleSpinner();
-        setupRegisterButton();
+        setupLoginButton();
+        setupRegisterLink();
         setupPasswordToggle();
     }
 
     private void initViews() {
-        fullNameEditText = findViewById(R.id.editTextFullName);
-        emailEditText = findViewById(R.id.editTextEmail);
-        passwordEditText = findViewById(R.id.editTextPassword);
-        roleSpinner = findViewById(R.id.spinnerRole);
-        registerButton = findViewById(R.id.buttonRegister);
-        passwordToggleButton = findViewById(R.id.buttonToggleRegisterPassword);
+        emailEditText = findViewById(R.id.editTextLoginEmail);
+        passwordEditText = findViewById(R.id.editTextLoginPassword);
+        loginButton = findViewById(R.id.buttonLogin);
+        registerTextView = findViewById(R.id.textViewRegister);
+        passwordToggleButton = findViewById(R.id.buttonToggleLoginPassword);
     }
 
     private void setupPasswordToggle() {
@@ -87,38 +91,28 @@ public class RegisterActivity extends AppCompatActivity {
         passwordEditText.setSelection(passwordEditText.getText().length());
     }
 
-    private void setupRoleSpinner() {
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                new String[]{"Customer", "Shipper"}
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        roleSpinner.setAdapter(adapter);
-    }
-
-    private void setupRegisterButton() {
-        registerButton.setOnClickListener(new View.OnClickListener() {
+    private void setupLoginButton() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handleRegistration();
+                handleLogin();
             }
         });
     }
 
-    private void handleRegistration() {
-        final String fullName = fullNameEditText.getText().toString().trim();
+    private void setupRegisterLink() {
+        registerTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void handleLogin() {
         final String email = emailEditText.getText().toString().trim();
         final String password = passwordEditText.getText().toString();
-        final String role = roleSpinner.getSelectedItem() != null
-                ? roleSpinner.getSelectedItem().toString()
-                : "";
-
-        if (TextUtils.isEmpty(fullName)) {
-            fullNameEditText.setError("Full name is required");
-            fullNameEditText.requestFocus();
-            return;
-        }
 
         if (TextUtils.isEmpty(email)) {
             emailEditText.setError("Email is required");
@@ -138,42 +132,64 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        if (TextUtils.isEmpty(role)) {
-            Toast.makeText(this, "Please select a role", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                UserEntity existingUser = usersDao.getUserByEmail(email);
-                if (existingUser != null) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(RegisterActivity.this, "Email already registered", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    return;
-                }
-
-                UserEntity user = new UserEntity();
-                user.setFullName(fullName);
-                user.setEmail(email);
-                user.setPassword(password);
-                user.setRole(role);
-                user.setStatus("Active");
-
-                usersDao.insert(user);
-
+                final UserEntity user = usersDao.checkUser(email, password);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                        finish();
+                        if (user == null) {
+                            Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
+                        } else {
+                            navigateToRoleHome(user);
+                        }
                     }
                 });
             }
         });
+    }
+
+    private void navigateToRoleHome(@NonNull UserEntity user) {
+        String role = user.getRole();
+        if (TextUtils.isEmpty(role)) {
+            Toast.makeText(this, "User role is not defined", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String normalizedRole = role.trim().toLowerCase(Locale.US);
+        Class<?> targetClass;
+        Intent intent;
+        switch (normalizedRole) {
+            case "customer":
+                targetClass = CustomerMainActivity.class;
+                break;
+            case "owner":
+                targetClass = OwnerMainActivity.class;
+                break;
+            case "shipper":
+                targetClass = ShipperMainActivity.class;
+                break;
+            default:
+                targetClass = null;
+                break;
+        }
+
+        if (targetClass == null) {
+            if ("shipper".equals(normalizedRole)) {
+                Toast.makeText(this, "Destination screen not found", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Unknown user role", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+
+        intent = new Intent(this, targetClass);
+        if (normalizedRole.equals("shipper")) {
+            intent.putExtra(ShipperMainActivity.EXTRA_SHIPPER_ID, user.getUserId());
+        }
+        UserSession.setCurrentUser(user);
+        startActivity(intent);
+        finish();
     }
 }

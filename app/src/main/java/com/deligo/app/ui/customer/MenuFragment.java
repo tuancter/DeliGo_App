@@ -1,4 +1,4 @@
-package com.deligo.app.ui;
+package com.deligo.app.ui.customer;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.deligo.app.R;
 import com.deligo.app.data.local.entity.FoodEntity;
-import com.deligo.app.ui.menu.MenuAdapter;
-import com.deligo.app.ui.menu.MenuViewModel;
+import com.deligo.app.ui.customer.menu.MenuAdapter;
+import com.deligo.app.ui.customer.menu.MenuViewModel;
 
 public class MenuFragment extends Fragment {
 
@@ -41,7 +41,10 @@ public class MenuFragment extends Fragment {
     }
 
     private void setupViewModel() {
-        menuViewModel = new ViewModelProvider(this).get(MenuViewModel.class);
+        menuViewModel = new ViewModelProvider(
+                this,
+                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().getApplication()))
+                .get(MenuViewModel.class);
     }
 
     private void setupRecyclerView(@NonNull View view) {
