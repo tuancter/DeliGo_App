@@ -50,8 +50,8 @@ public abstract class DeliGoDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "deligo_db";
     private static volatile DeliGoDatabase INSTANCE;
     private static final ExecutorService databaseWriteExecutor = Executors.newSingleThreadExecutor();
-    private static final String DEFAULT_OWNER_EMAIL = "admin@deligo.com";
-    private static final String DEFAULT_OWNER_PASSWORD = "admin123";
+    private static final String DEFAULT_ADMIN_EMAIL = "admin@deligo.com";
+    private static final String DEFAULT_ADMIN_PASSWORD = "admin123";
 
     public abstract UsersDao usersDao();
 
@@ -97,20 +97,20 @@ public abstract class DeliGoDatabase extends RoomDatabase {
                                 @Override
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                     super.onCreate(db);
-                                    seedDefaultOwnerAccountAsync();
+                                    seedDefaultAdminAccountAsync();
                                 }
 
                                 @Override
                                 public void onOpen(@NonNull SupportSQLiteDatabase db) {
                                     super.onOpen(db);
-                                    seedDefaultOwnerAccountAsync();
+                                    seedDefaultAdminAccountAsync();
                                 }
 
-                                private void seedDefaultOwnerAccountAsync() {
+                                private void seedDefaultAdminAccountAsync() {
                                     databaseWriteExecutor.execute(new Runnable() {
                                         @Override
                                         public void run() {
-                                            seedDefaultOwnerAccount();
+                                            seedDefaultAdminAccount();
                                         }
                                     });
                                 }
@@ -122,49 +122,49 @@ public abstract class DeliGoDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    private static void seedDefaultOwnerAccount() {
+    private static void seedDefaultAdminAccount() {
         DeliGoDatabase database = INSTANCE;
         if (database == null) {
             return;
         }
 
         UsersDao usersDao = database.usersDao();
-        UserEntity existingOwner = usersDao.getUserByEmail(DEFAULT_OWNER_EMAIL);
-        if (existingOwner == null) {
-            UserEntity ownerUser = new UserEntity();
-            ownerUser.setFullName("Cửa hàng DeliGo");
-            ownerUser.setEmail(DEFAULT_OWNER_EMAIL);
-            ownerUser.setPassword(DEFAULT_OWNER_PASSWORD);
-            ownerUser.setRole("Owner");
-            ownerUser.setStatus("Active");
-            usersDao.insert(ownerUser);
+        UserEntity existingAdmin = usersDao.getUserByEmail(DEFAULT_ADMIN_EMAIL);
+        if (existingAdmin == null) {
+            UserEntity adminUser = new UserEntity();
+            adminUser.setFullName("Quản trị DeliGo");
+            adminUser.setEmail(DEFAULT_ADMIN_EMAIL);
+            adminUser.setPassword(DEFAULT_ADMIN_PASSWORD);
+            adminUser.setRole("Admin");
+            adminUser.setStatus("Active");
+            usersDao.insert(adminUser);
             return;
         }
 
         boolean needsUpdate = false;
 
-        if (!DEFAULT_OWNER_PASSWORD.equals(existingOwner.getPassword())) {
-            existingOwner.setPassword(DEFAULT_OWNER_PASSWORD);
+        if (!DEFAULT_ADMIN_PASSWORD.equals(existingAdmin.getPassword())) {
+            existingAdmin.setPassword(DEFAULT_ADMIN_PASSWORD);
             needsUpdate = true;
         }
 
-        if (!"Owner".equalsIgnoreCase(existingOwner.getRole())) {
-            existingOwner.setRole("Owner");
+        if (!"Admin".equalsIgnoreCase(existingAdmin.getRole())) {
+            existingAdmin.setRole("Admin");
             needsUpdate = true;
         }
 
-        if (!"Active".equalsIgnoreCase(existingOwner.getStatus())) {
-            existingOwner.setStatus("Active");
+        if (!"Active".equalsIgnoreCase(existingAdmin.getStatus())) {
+            existingAdmin.setStatus("Active");
             needsUpdate = true;
         }
 
-        if (existingOwner.getFullName() == null || existingOwner.getFullName().trim().isEmpty()) {
-            existingOwner.setFullName("Cửa hàng DeliGo");
+        if (existingAdmin.getFullName() == null || existingAdmin.getFullName().trim().isEmpty()) {
+            existingAdmin.setFullName("Quản trị DeliGo");
             needsUpdate = true;
         }
 
         if (needsUpdate) {
-            usersDao.update(existingOwner);
+            usersDao.update(existingAdmin);
         }
     }
 }
