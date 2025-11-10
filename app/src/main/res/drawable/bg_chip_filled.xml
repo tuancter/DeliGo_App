@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFF0EB" /> <!-- nền nhạt đỏ cam -->
+    <corners android:radius="50dp" />
+</shape>

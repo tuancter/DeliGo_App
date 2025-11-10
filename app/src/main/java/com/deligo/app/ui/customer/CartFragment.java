@@ -73,10 +73,18 @@ public class CartFragment extends Fragment {
     private void setupButtons(@NonNull View view) {
         Button btnContinue = view.findViewById(R.id.buttonContinueShopping);
         Button btnCheckout = view.findViewById(R.id.buttonCheckout);
-        btnContinue.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, new MenuFragment())
-                .commit());
+        btnContinue.setOnClickListener(v -> {
+            com.google.android.material.bottomnavigation.BottomNavigationView bnv = requireActivity().findViewById(R.id.bottom_navigation);
+            if (bnv != null) {
+                bnv.setSelectedItemId(R.id.navigation_menu);
+            } else {
+                // Fallback: direct navigation if BottomNavigationView not found
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new MenuFragment())
+                        .commit();
+            }
+        });
         btnCheckout.setOnClickListener(v -> requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, new CheckoutFragment())

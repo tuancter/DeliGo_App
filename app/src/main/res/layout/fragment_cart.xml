@@ -66,26 +66,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="end"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="10dp"
                 android:layout_marginTop="16dp">
 
                 <Button
                     android:id="@+id/buttonContinueShopping"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="Tiếp tục mua sắm"
                     style="@style/Widget.DeliGo.Button.Outlined"
-                    android:layout_marginEnd="8dp" />
+                    android:layout_marginEnd="16dp"
+                    android:minWidth="0dp" />
 
                 <Button
                     android:id="@+id/buttonCheckout"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="Đặt hàng"
                     style="@style/Widget.DeliGo.Button" />
             </LinearLayout>
+
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

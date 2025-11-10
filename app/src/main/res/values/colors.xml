@@ -17,6 +17,7 @@
     <!-- Background Colors -->
     <color name="deligo_background">#FFF8F5</color>
     <color name="deligo_on_background">#2E2E2E</color>
+    <color name="deligo_card_background">#eeeeee</color>
     
     <!-- Surface Colors -->
     <color name="deligo_surface">#FFFFFF</color>
@@ -25,7 +26,7 @@
     <color name="deligo_on_surface_variant">#7A7A7A</color>
     
     <!-- Text Colors -->
-    <color name="deligo_text_primary">#FFFFFF</color>
+    <color name="deligo_text_primary">#000000</color>
     <color name="deligo_text_secondary">#7A7A7A</color>
     <color name="deligo_text_disabled">#CCCCCC</color>
     
@@ -85,6 +86,8 @@
     <!-- Gradient Colors for Buttons/Cards (optional) -->
     <color name="deligo_gradient_start">@color/deligo_primary</color>
     <color name="deligo_gradient_end">@color/deligo_secondary</color>
+
+    <color name="deligo_icon_muted">#9e9e9e</color>
 
     <color name="color_surface">@color/deligo_surface</color>
     <color name="color_background">@color/deligo_background</color>
