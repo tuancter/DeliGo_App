@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "495640122337",
+    "project_id": "deligo-06",
+    "storage_bucket": "deligo-06.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495640122337:android:358d5b5d5323b152b538a0",
+        "android_client_info": {
+          "package_name": "com.deligo.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDl8GuvpIP1MLkzTPvX8ebyT5iG3xOcayA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

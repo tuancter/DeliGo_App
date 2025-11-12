@@ -17,9 +17,11 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.deligo.app.data.local.DeliGoDatabase;
 import com.deligo.app.ui.auth.LoginActivity;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String TAG = "MainActivity";
     // 👉 Thay URL này bằng ảnh thật của bạn
     private static final String BG_IMAGE_URL =
