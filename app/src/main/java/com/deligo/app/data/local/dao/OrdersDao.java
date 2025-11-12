@@ -31,9 +31,6 @@ public interface OrdersDao {
     @Query("SELECT * FROM Orders WHERE OrderStatus = :status ORDER BY CreatedAt DESC")
     LiveData<List<OrderEntity>> getOrdersByStatus(String status);
 
-    @Query("SELECT * FROM Orders WHERE ShipperID = :shipperId ORDER BY CreatedAt DESC")
-    LiveData<List<OrderEntity>> getOrdersByShipperId(long shipperId);
-
     @Transaction
     default long insertOrderWithDetails(OrderEntity order, List<OrderDetailEntity> details) {
         long orderId = insertOrder(order);

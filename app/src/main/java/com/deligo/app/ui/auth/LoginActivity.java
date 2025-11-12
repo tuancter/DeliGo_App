@@ -31,7 +31,6 @@ import com.deligo.app.data.local.dao.UsersDao;
 import com.deligo.app.data.local.entity.UserEntity;
 import com.deligo.app.ui.customer.CustomerMainActivity;
 import com.deligo.app.ui.owner.OwnerMainActivity;
-import com.deligo.app.ui.shipper.ShipperMainActivity;
 
 import java.util.Locale;
 import java.util.concurrent.Executor;
@@ -285,27 +284,17 @@ public class LoginActivity extends AppCompatActivity {
             case "owner":
                 targetClass = OwnerMainActivity.class;
                 break;
-            case "shipper":
-                targetClass = ShipperMainActivity.class;
-                break;
             default:
                 targetClass = null;
                 break;
         }
 
         if (targetClass == null) {
-            if ("shipper".equals(normalizedRole)) {
-                Toast.makeText(this, "Destination screen not found", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Unknown user role", Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(this, "Unknown user role", Toast.LENGTH_SHORT).show();
             return;
         }
 
         intent = new Intent(this, targetClass);
-        if (normalizedRole.equals("shipper")) {
-            intent.putExtra(ShipperMainActivity.EXTRA_SHIPPER_ID, user.getUserId());
-        }
         UserSession.setCurrentUser(user);
         startActivity(intent);
         finish();

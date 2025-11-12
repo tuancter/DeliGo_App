@@ -188,10 +188,9 @@ public abstract class DeliGoDatabase extends RoomDatabase {
         DeliGoDatabase db = INSTANCE;
         if (db == null) return;
 
-        // 1) Seed Users (Owner, Customers, Shippers)
+        // 1) Seed Users (Owner, Customers)
         UsersDao usersDao = db.usersDao();
         List<Long> customerIds = new ArrayList<>();
-        List<Long> shipperIds = new ArrayList<>();
 
         // Owner
         UserEntity owner = new UserEntity();
@@ -216,20 +215,6 @@ public abstract class DeliGoDatabase extends RoomDatabase {
             c.setCreatedAt("2025-01-01 09:0" + i + ":00");
             long id = usersDao.insert(c);
             customerIds.add(id);
-        }
-
-        // 2 Shippers
-        for (int i = 1; i <= 2; i++) {
-            UserEntity s = new UserEntity();
-            s.setFullName("Shipper " + i);
-            s.setEmail("shipper" + i + "@mail.com");
-            s.setPhone("09000020" + i);
-            s.setPassword("123456");
-            s.setRole("Shipper");
-            s.setStatus("Active");
-            s.setCreatedAt("2025-01-01 10:0" + i + ":00");
-            long id = usersDao.insert(s);
-            shipperIds.add(id);
         }
 
         // 2) Seed Categories (5)
@@ -333,11 +318,10 @@ public abstract class DeliGoDatabase extends RoomDatabase {
         OrdersDao ordersDao = db.ordersDao();
         for (int i = 0; i < 5; i++) {
             long customerId = customerIds.get(i % customerIds.size());
-            Long shipperId = (i % 2 == 0 && !shipperIds.isEmpty()) ? shipperIds.get(i % shipperIds.size()) : null;
 
             OrderEntity order = new OrderEntity();
             order.setCustomerId(customerId);
-            order.setShipperId(shipperId);
+            order.setShipperId(null);
             order.setDeliveryAddress("Số " + (10 + i) + ", Đường ABC, Quận 1, TP.HCM");
             order.setPaymentMethod(i % 2 == 0 ? "Tiền mặt" : "Thẻ");
             order.setPaymentStatus(i % 3 == 0 ? "Đã thanh toán" : "Chưa thanh toán");

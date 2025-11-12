@@ -142,9 +142,9 @@ public class UserFragment extends Fragment {
         }
 
         // Logic hiển thị:
-        // - customer, shipper: ưu tiên Địa chỉ. Tên cửa hàng ẩn.
+        // - customer: ưu tiên Địa chỉ. Tên cửa hàng ẩn.
         // - owner: ưu tiên Tên cửa hàng, có thể hiển thị thêm Địa chỉ nếu có.
-        if ("customer".equals(currentRole) || "shipper".equals(currentRole)) {
+        if ("customer".equals(currentRole)) {
             if (!TextUtils.isEmpty(address)) {
                 textAddress.setVisibility(View.VISIBLE);
             } else {

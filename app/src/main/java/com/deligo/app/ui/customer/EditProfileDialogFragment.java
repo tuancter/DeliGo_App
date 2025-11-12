@@ -72,7 +72,7 @@ public class EditProfileDialogFragment extends DialogFragment {
         if ("owner".equals(role)) {
             layoutStoreName.setVisibility(View.VISIBLE);
             layoutAddress.setVisibility(View.GONE);
-        } else if ("customer".equals(role) || "shipper".equals(role)) {
+        } else if ("customer".equals(role)) {
             layoutAddress.setVisibility(View.VISIBLE);
             layoutStoreName.setVisibility(View.GONE);
         } else {

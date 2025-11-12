@@ -50,19 +50,6 @@
     <string name="order_marked_cancelled">Đơn hàng đã bị huỷ</string>
     <string name="order_marked_ready">Đơn hàng đã sẵn sàng</string>
     <string name="toggle_password_visibility">Toggle password visibility</string>
-    <string name="menu_available_orders">Đơn hàng đang chờ</string>
-    <string name="menu_my_deliveries">Danh sách giao hàng</string>
-    <string name="available_orders_empty">Chưa có đơn hàng nào chờ ship!</string>
-    <string name="my_deliveries_empty">Chưa có đơn hàng nào được giao!</string>
-    <string name="accept_delivery">Chấp nhận giao hàng</string>
-    <string name="complete_delivery">Hoàn thành giao hàng</string>
-    <string name="accept_delivery_success">Chấp nhận giao hàng thành công.</string>
-    <string name="complete_delivery_success">Hoàn thành giao hàng thành công.</string>
-    <string name="delivery_detail_missing_order">Thông tin đơn hàng không đầy đủ.</string>
-    <string name="delivery_address_label">Địa chỉ giao hàng</string>
-    <string name="customer_phone_label">Số điện thoại</string>
-    <string name="customer_phone_not_available">Không có</string>
-    <string name="shipper_id_missing_message">Vui lòng đăng nhập tài khoản shipper trước khi giao hàng.</string>
     <string name="login_unexpected_error">Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại sau.</string>
     <!-- Category management -->
     <string name="manage_categories_title">Quản lý danh mục</string>

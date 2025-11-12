@@ -20,9 +20,6 @@
         <activity android:name="com.deligo.app.ui.auth.RegisterActivity" />
         <activity android:name="com.deligo.app.ui.customer.CustomerMainActivity" />
         <activity android:name="com.deligo.app.ui.owner.OwnerMainActivity" />
-        <activity android:name="com.deligo.app.ui.shipper.ShipperMainActivity" />
-        <activity android:name="com.deligo.app.ui.shipper.DeliveryDetailActivity"
-            android:parentActivityName="com.deligo.app.ui.shipper.ShipperMainActivity" />
     </application>
 
 </manifest>
