@@ -25,10 +25,13 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.deligo.app.R;
+import com.deligo.app.data.SessionManager;
 import com.deligo.app.data.UserSession;
 import com.deligo.app.data.local.DeliGoDatabase;
 import com.deligo.app.data.local.dao.UsersDao;
 import com.deligo.app.data.local.entity.UserEntity;
+import com.deligo.app.data.remote.AuthRepository;
+import com.deligo.app.data.remote.model.UserModel;
 import com.deligo.app.ui.customer.CustomerMainActivity;
 import com.deligo.app.ui.owner.OwnerMainActivity;
 
@@ -41,9 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
 
     // 👉 Có thể dùng chung URL với MainActivity hoặc chọn ảnh riêng cho màn login
-    private static final String BG_IMAGE_URL =
-            "https://www.urlaubstracker.de/wp-content/uploads/2019/05/oesterreich-wien-restaurant-kathedrale-2048x1366.jpg";
-
+    private static final String BG_IMAGE_URL = "";
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button loginButton;
@@ -51,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
     private ImageButton passwordToggleButton;
 
     private UsersDao usersDao;
+    private AuthRepository authRepository;
+    private SessionManager sessionManager;
     private final Executor executor = Executors.newSingleThreadExecutor();
     private boolean isPasswordVisible = false;
 
@@ -92,6 +95,8 @@ public class LoginActivity extends AppCompatActivity {
 
         DeliGoDatabase database = DeliGoDatabase.getInstance(getApplicationContext());
         usersDao = database.usersDao();
+        authRepository = new AuthRepository();
+        sessionManager = new SessionManager(this);
 
         initViews();
         setupLoginButton();
@@ -175,98 +180,39 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        if (usersDao == null) {
-            Toast.makeText(this, R.string.login_unexpected_error, Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "UsersDao is not initialized, aborting login attempt");
-            return;
-        }
-
-        attemptLogin(email, password, false);
-    }
-
-    private void attemptLogin(@NonNull final String email, @NonNull final String password, final boolean hasRetried) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                UsersDao dao = usersDao;
-                if (dao == null) {
-                    Log.e(TAG, "UsersDao became unavailable while attempting login");
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(LoginActivity.this, R.string.login_unexpected_error, Toast.LENGTH_SHORT).show();
-                        }
+        loginButton.setEnabled(false);
+        
+        authRepository.loginUser(email, password)
+                .addOnSuccessListener(sessionResult -> {
+                    Log.d(TAG, "Login successful, session token: " + sessionResult.getSession().getSessionToken());
+                    UserModel user = sessionResult.getUser();
+                    String sessionToken = sessionResult.getSession().getSessionToken();
+                    
+                    runOnUiThread(() -> {
+                        // Lưu session vào SharedPreferences
+                        sessionManager.saveSession(sessionToken, user.getUserId(), user.getRole());
+                        
+                        // Lưu vào memory session
+                        UserSession.setCurrentUser(user, sessionToken);
+                        
+                        navigateToRoleHome(user);
                     });
-                    return;
-                }
-
-                UserEntity user = null;
-                Exception error = null;
-                try {
-                    user = dao.checkUser(email, password);
-                } catch (Exception e) {
-                    Log.e(TAG, "Failed to validate user credentials", e);
-                    if (!hasRetried && shouldAttemptDatabaseRecovery(e) && resetDatabaseAndReloadDao()) {
-                        attemptLogin(email, password, true);
-                        return;
-                    }
-                    error = e;
-                }
-
-                final UserEntity resultUser = user;
-                final Exception resultError = error;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (resultError != null) {
-                            Toast.makeText(LoginActivity.this, R.string.login_unexpected_error, Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        if (resultUser == null) {
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Login failed", e);
+                    runOnUiThread(() -> {
+                        loginButton.setEnabled(true);
+                        String errorMessage = e.getMessage();
+                        if (errorMessage != null && errorMessage.contains("Invalid email or password")) {
                             Toast.makeText(LoginActivity.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
                         } else {
-                            navigateToRoleHome(resultUser);
+                            Toast.makeText(LoginActivity.this, "Login failed: " + errorMessage, Toast.LENGTH_SHORT).show();
                         }
-                    }
+                    });
                 });
-            }
-        });
     }
 
-    private boolean shouldAttemptDatabaseRecovery(@NonNull Exception e) {
-        if (e instanceof SQLiteException) {
-            return true;
-        }
-
-        String message = e.getMessage();
-        if (message == null) {
-            return false;
-        }
-
-        String normalizedMessage = message.toLowerCase(Locale.US);
-
-        return normalizedMessage.contains("no such table")
-                || normalizedMessage.contains("no such column")
-                || normalizedMessage.contains("room cannot verify")
-                || normalizedMessage.contains("database is locked")
-                || normalizedMessage.contains("malformed");
-    }
-
-    private boolean resetDatabaseAndReloadDao() {
-        try {
-            Log.w(TAG, "Attempting to reset Room database after login query failure");
-            DeliGoDatabase.resetInstance(getApplicationContext());
-            DeliGoDatabase database = DeliGoDatabase.getInstance(getApplicationContext());
-            usersDao = database.usersDao();
-            return usersDao != null;
-        } catch (Exception resetException) {
-            Log.e(TAG, "Unable to reset database during login recovery", resetException);
-            return false;
-        }
-    }
-
-    private void navigateToRoleHome(@NonNull UserEntity user) {
+    private void navigateToRoleHome(@NonNull UserModel user) {
         String role = user.getRole();
         if (TextUtils.isEmpty(role)) {
             Toast.makeText(this, "User role is not defined", Toast.LENGTH_SHORT).show();
@@ -295,7 +241,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         intent = new Intent(this, targetClass);
-        UserSession.setCurrentUser(user);
         startActivity(intent);
         finish();
     }

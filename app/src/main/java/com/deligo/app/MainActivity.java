@@ -24,9 +24,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static final String TAG = "MainActivity";
     // 👉 Thay URL này bằng ảnh thật của bạn
-    private static final String BG_IMAGE_URL =
-            "https://images.pexels.com/photos/3184183/pexels-photo-3184183.jpeg";
-
+    private static final String BG_IMAGE_URL = "";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         // DB setup
         Log.d(TAG, "Initializing local database...");
         DeliGoDatabase database = DeliGoDatabase.getInstance(getApplicationContext());
-        DeliGoDatabase.ensureMockDataSeededAsync();
         String databaseName = database.getOpenHelper().getDatabaseName();
         if (databaseName == null) {
             databaseName = getString(R.string.unknown_database_name);

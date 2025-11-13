@@ -27,9 +27,18 @@ public interface FoodsDao {
     @Query("SELECT * FROM Foods ORDER BY Name ASC")
     LiveData<List<FoodEntity>> getAllFoods();
 
+    @Query("SELECT * FROM Foods ORDER BY Name ASC")
+    List<FoodEntity> getAllFoodsSync();
+
     @Query("SELECT * FROM Foods WHERE CategoryID = :categoryId ORDER BY Name ASC")
     LiveData<List<FoodEntity>> getFoodsByCategory(long categoryId);
 
+    @Query("SELECT * FROM Foods WHERE CategoryID = :categoryId ORDER BY Name ASC")
+    List<FoodEntity> getFoodsByCategorySync(long categoryId);
+
     @Query("SELECT * FROM Foods WHERE FoodID = :foodId LIMIT 1")
     FoodEntity getFoodSync(long foodId);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<FoodEntity> foods);
 }

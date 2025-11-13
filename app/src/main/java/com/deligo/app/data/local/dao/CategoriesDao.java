@@ -27,6 +27,18 @@ public interface CategoriesDao {
     @Query("SELECT * FROM Categories ORDER BY CategoryName ASC")
     LiveData<List<CategoryEntity>> getAllCategories();
 
+    @Query("SELECT * FROM Categories ORDER BY CategoryName ASC")
+    List<CategoryEntity> getAllSync();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<CategoryEntity> categories);
+
+    @Query("DELETE FROM Categories")
+    void deleteAll();
+
+    @Query("DELETE FROM Categories WHERE CategoryID = :categoryId")
+    void deleteById(long categoryId);
+
     @Query("SELECT COUNT(*) FROM Categories")
     long count();
 }

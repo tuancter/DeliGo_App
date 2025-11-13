@@ -97,7 +97,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
-                        android:imeOptions="actionDone"
+                        android:imeOptions="actionNext"
                         android:paddingEnd="48dp"
                         android:paddingRight="48dp"
                         android:textColor="@color/deligo_text_primary"
@@ -106,6 +106,46 @@
 
                 <ImageButton
                     android:id="@+id/buttonToggleRegisterPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/toggle_password_visibility"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_visibility"
+                    app:tint="@color/deligo_primary" />
+            </RelativeLayout>
+
+            <!-- Confirm Password Input -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Xác nhận mật khẩu"
+                    app:hintTextColor="@color/deligo_primary"
+                    app:boxStrokeColor="@color/deligo_primary"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextConfirmPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:imeOptions="actionDone"
+                        android:paddingEnd="48dp"
+                        android:paddingRight="48dp"
+                        android:textColor="@color/deligo_text_primary"
+                        android:textColorHint="@color/deligo_text_secondary" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageButton
+                    android:id="@+id/buttonToggleConfirmPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

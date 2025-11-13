@@ -28,8 +28,20 @@ public interface OrdersDao {
     @Query("SELECT * FROM Orders WHERE CustomerID = :customerId ORDER BY CreatedAt DESC")
     LiveData<List<OrderEntity>> getOrdersByCustomerId(long customerId);
 
+    @Query("SELECT * FROM Orders WHERE CustomerID = :customerId ORDER BY CreatedAt DESC")
+    List<OrderEntity> getOrdersByCustomerSync(long customerId);
+
+    @Query("SELECT * FROM Orders ORDER BY CreatedAt DESC")
+    List<OrderEntity> getAllOrdersSync();
+
     @Query("SELECT * FROM Orders WHERE OrderStatus = :status ORDER BY CreatedAt DESC")
     LiveData<List<OrderEntity>> getOrdersByStatus(String status);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<OrderEntity> orders);
+
+    @Query("UPDATE Orders SET OrderStatus = :status WHERE OrderID = :orderId")
+    void updateOrderStatus(long orderId, String status);
 
     @Transaction
     default long insertOrderWithDetails(OrderEntity order, List<OrderDetailEntity> details) {

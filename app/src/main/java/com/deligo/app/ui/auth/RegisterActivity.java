@@ -26,6 +26,7 @@ import com.deligo.app.R;
 import com.deligo.app.data.local.DeliGoDatabase;
 import com.deligo.app.data.local.dao.UsersDao;
 import com.deligo.app.data.local.entity.UserEntity;
+import com.deligo.app.data.remote.AuthRepository;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -35,19 +36,21 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
 
     // Có thể dùng chung URL với MainActivity/LoginActivity cho đồng bộ
-    private static final String BG_IMAGE_URL =
-            "https://www.urlaubstracker.de/wp-content/uploads/2019/05/oesterreich-wien-restaurant-kathedrale-2048x1366.jpg";
-
+    private static final String BG_IMAGE_URL = "";
     private EditText fullNameEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
+    private EditText confirmPasswordEditText;
     private Spinner roleSpinner;
     private Button registerButton;
     private ImageButton passwordToggleButton;
+    private ImageButton confirmPasswordToggleButton;
 
     private UsersDao usersDao;
+    private AuthRepository authRepository;
     private final Executor executor = Executors.newSingleThreadExecutor();
     private boolean isPasswordVisible = false;
+    private boolean isConfirmPasswordVisible = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         DeliGoDatabase database = DeliGoDatabase.getInstance(getApplicationContext());
         usersDao = database.usersDao();
+        authRepository = new AuthRepository();
 
         initViews();
         setupRoleSpinner();
@@ -98,28 +102,41 @@ public class RegisterActivity extends AppCompatActivity {
         fullNameEditText = findViewById(R.id.editTextFullName);
         emailEditText = findViewById(R.id.editTextEmail);
         passwordEditText = findViewById(R.id.editTextPassword);
+        confirmPasswordEditText = findViewById(R.id.editTextConfirmPassword);
         roleSpinner = findViewById(R.id.spinnerRole);
         registerButton = findViewById(R.id.buttonRegister);
         passwordToggleButton = findViewById(R.id.buttonToggleRegisterPassword);
+        confirmPasswordToggleButton = findViewById(R.id.buttonToggleConfirmPassword);
     }
 
     private void setupPasswordToggle() {
-        if (passwordToggleButton == null) {
-            return;
+        if (passwordToggleButton != null) {
+            passwordToggleButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    isPasswordVisible = !isPasswordVisible;
+                    updatePasswordVisibility();
+                }
+            });
         }
 
-        passwordToggleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isPasswordVisible = !isPasswordVisible;
-                updatePasswordVisibility();
-            }
-        });
+        if (confirmPasswordToggleButton != null) {
+            confirmPasswordToggleButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    isConfirmPasswordVisible = !isConfirmPasswordVisible;
+                    updateConfirmPasswordVisibility();
+                }
+            });
+        }
 
         updatePasswordVisibility();
+        updateConfirmPasswordVisibility();
     }
 
     private void updatePasswordVisibility() {
+        if (passwordToggleButton == null) return;
+        
         if (isPasswordVisible) {
             passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             passwordToggleButton.setImageResource(R.drawable.ic_visibility_off);
@@ -128,6 +145,19 @@ public class RegisterActivity extends AppCompatActivity {
             passwordToggleButton.setImageResource(R.drawable.ic_visibility);
         }
         passwordEditText.setSelection(passwordEditText.getText().length());
+    }
+
+    private void updateConfirmPasswordVisibility() {
+        if (confirmPasswordToggleButton == null) return;
+        
+        if (isConfirmPasswordVisible) {
+            confirmPasswordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            confirmPasswordToggleButton.setImageResource(R.drawable.ic_visibility_off);
+        } else {
+            confirmPasswordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            confirmPasswordToggleButton.setImageResource(R.drawable.ic_visibility);
+        }
+        confirmPasswordEditText.setSelection(confirmPasswordEditText.getText().length());
     }
 
     private void setupRoleSpinner() {
@@ -153,6 +183,7 @@ public class RegisterActivity extends AppCompatActivity {
         final String fullName = fullNameEditText.getText().toString().trim();
         final String email = emailEditText.getText().toString().trim();
         final String password = passwordEditText.getText().toString();
+        final String confirmPassword = confirmPasswordEditText.getText().toString();
         final String role = roleSpinner.getSelectedItem() != null
                 ? roleSpinner.getSelectedItem().toString()
                 : "";
@@ -181,42 +212,50 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        if (password.length() < 6) {
+            passwordEditText.setError("Password must be at least 6 characters");
+            passwordEditText.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(confirmPassword)) {
+            confirmPasswordEditText.setError("Confirm password is required");
+            confirmPasswordEditText.requestFocus();
+            return;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            confirmPasswordEditText.setError("Passwords do not match");
+            confirmPasswordEditText.requestFocus();
+            return;
+        }
+
         if (TextUtils.isEmpty(role)) {
             Toast.makeText(this, "Please select a role", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                UserEntity existingUser = usersDao.getUserByEmail(email);
-                if (existingUser != null) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(RegisterActivity.this, "Email already registered", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    return;
-                }
-
-                UserEntity user = new UserEntity();
-                user.setFullName(fullName);
-                user.setEmail(email);
-                user.setPassword(password);
-                user.setRole(role);
-                user.setStatus("Active");
-
-                usersDao.insert(user);
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+        registerButton.setEnabled(false);
+        
+        authRepository.registerUser(fullName, email, password, role)
+                .addOnSuccessListener(userId -> {
+                    Log.d(TAG, "User registered successfully with ID: " + userId);
+                    runOnUiThread(() -> {
                         Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                         finish();
-                    }
+                    });
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Registration failed", e);
+                    runOnUiThread(() -> {
+                        registerButton.setEnabled(true);
+                        String errorMessage = e.getMessage();
+                        if (errorMessage != null && errorMessage.contains("Email already registered")) {
+                            Toast.makeText(RegisterActivity.this, "Email already registered", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "Registration failed: " + errorMessage, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 });
-            }
-        });
     }
 }
