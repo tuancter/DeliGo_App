@@ -39,6 +39,14 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="@color/deligo_text_secondary" />
 
+        <Button
+            android:id="@+id/testFirestoreButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Test Firestore"
+            style="@style/Widget.DeliGo.Button" />
+
     </LinearLayout>
 
 </FrameLayout>

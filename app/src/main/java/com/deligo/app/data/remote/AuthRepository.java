@@ -39,18 +39,23 @@ public class AuthRepository {
      */
     public Task<String> registerUser(@NonNull String fullName, @NonNull String email,
                                      @NonNull String password, @NonNull String role) {
+        Log.d(TAG, "Starting registration for email: " + email);
+        
         return checkEmailExists(email).continueWithTask(task -> {
             if (!task.isSuccessful()) {
+                Log.e(TAG, "Failed to check email existence", task.getException());
                 throw task.getException();
             }
             
             if (task.getResult()) {
+                Log.w(TAG, "Email already exists: " + email);
                 throw new Exception("Email already registered");
             }
             
             String userId = UUID.randomUUID().toString();
             String passwordHash = hashPassword(password);
             
+            Log.d(TAG, "Creating user with ID: " + userId);
             UserModel user = new UserModel(userId, fullName, email, passwordHash, role, "Active");
             
             return db.collection(FirestoreManager.COLLECTION_USERS)
@@ -58,9 +63,10 @@ public class AuthRepository {
                     .set(user)
                     .continueWith(setTask -> {
                         if (!setTask.isSuccessful()) {
+                            Log.e(TAG, "Failed to create user document", setTask.getException());
                             throw setTask.getException();
                         }
-                        Log.d(TAG, "User registered successfully: " + userId);
+                        Log.d(TAG, "✅ User registered successfully: " + userId);
                         return userId;
                     });
         });
@@ -70,6 +76,7 @@ public class AuthRepository {
      * Đăng nhập và tạo session token
      */
     public Task<SessionResult> loginUser(@NonNull String email, @NonNull String password) {
+        Log.d(TAG, "Starting login for email: " + email);
         String passwordHash = hashPassword(password);
         
         return db.collection(FirestoreManager.COLLECTION_USERS)
@@ -79,11 +86,13 @@ public class AuthRepository {
                 .get()
                 .continueWithTask(task -> {
                     if (!task.isSuccessful()) {
+                        Log.e(TAG, "Failed to query user", task.getException());
                         throw task.getException();
                     }
                     
                     QuerySnapshot snapshot = task.getResult();
                     if (snapshot.isEmpty()) {
+                        Log.w(TAG, "No user found with email: " + email);
                         throw new Exception("Invalid email or password");
                     }
                     
@@ -91,15 +100,20 @@ public class AuthRepository {
                     UserModel user = userDoc.toObject(UserModel.class);
                     
                     if (user == null) {
+                        Log.e(TAG, "User data is null");
                         throw new Exception("User data is invalid");
                     }
                     
+                    Log.d(TAG, "User found, creating session for: " + user.getUserId());
+                    
                     return createSession(user.getUserId()).continueWith(sessionTask -> {
                         if (!sessionTask.isSuccessful()) {
+                            Log.e(TAG, "Failed to create session", sessionTask.getException());
                             throw sessionTask.getException();
                         }
                         
                         SessionModel session = sessionTask.getResult();
+                        Log.d(TAG, "✅ Login successful, session created: " + session.getSessionToken());
                         return new SessionResult(user, session);
                     });
                 });

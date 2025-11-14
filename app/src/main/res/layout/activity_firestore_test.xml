@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/deligo_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Firestore Test"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/deligo_primary"
+            android:layout_marginBottom="24dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/testConnectionButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1. Test Connection"
+            android:layout_marginBottom="8dp"
+            style="@style/Widget.DeliGo.Button" />
+
+        <Button
+            android:id="@+id/initCollectionsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2. Initialize Collections"
+            android:layout_marginBottom="8dp"
+            style="@style/Widget.DeliGo.Button" />
+
+        <Button
+            android:id="@+id/checkCollectionsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3. Check Collections"
+            android:layout_marginBottom="8dp"
+            style="@style/Widget.DeliGo.Button" />
+
+        <Button
+            android:id="@+id/cleanupButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="4. Cleanup Sample Data"
+            android:layout_marginBottom="24dp"
+            style="@style/Widget.DeliGo.Button" />
+
+        <TextView
+            android:id="@+id/statusTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@android:color/white"
+            android:textColor="@color/deligo_text_primary"
+            android:textSize="14sp"
+            android:fontFamily="monospace"
+            android:text="Ready to test...\n\n" />
+
+    </LinearLayout>
+
+</ScrollView>

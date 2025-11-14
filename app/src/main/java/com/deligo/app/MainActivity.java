@@ -73,12 +73,19 @@ public class MainActivity extends AppCompatActivity {
 
         databaseStatusView.setText(getString(R.string.database_ready_message));
 
-        // Delay chuyển màn hình
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Log.d(TAG, "Navigating to LoginActivity...");
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        // Thêm nút test Firestore
+        findViewById(R.id.testFirestoreButton).setOnClickListener(v -> {
+            Log.d(TAG, "Opening Firestore Test Activity...");
+            Intent intent = new Intent(MainActivity.this, FirestoreTestActivity.class);
             startActivity(intent);
-            finish();
-        }, 3000);
+        });
+
+//        // Delay chuyển màn hình
+//        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+//            Log.d(TAG, "Navigating to LoginActivity...");
+//            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }, 3000);
     }
 }
